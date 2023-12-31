@@ -1,6 +1,6 @@
 # Mount-GUI
 
-<img src="img/mount-gui.png" width="502" /> <img src="img/mount-gui2.png" width="441" />
+<img src="img/mount-gui.png" width="251" /> <img src="img/mount-gui2.png" width="220" />
 
 - Quickly mount anything, anywhere, with any options.
 - Save default options for the file systems and devices.
