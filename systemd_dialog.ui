@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SystemdDialog</class>
+ <widget class="QDialog" name="SystemdDialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Create systemd mount unit</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="margin" stdset="0">
+    <number>2</number>
+   </property>
+   <item>
+    <widget class="QLineEdit" name="EditFileName">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="title">
+        <string>Identify drive by:</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>2</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QRadioButton" name="RadioPATH">
+          <property name="text">
+           <string>Device Path</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioUUID">
+          <property name="text">
+           <string notr="true">UUID</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioLABEL">
+          <property name="text">
+           <string notr="true">LABEL</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioPARTUUID">
+          <property name="text">
+           <string notr="true">PARTUUID</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="RadioPARTLABEL">
+          <property name="text">
+           <string notr="true">PARTLABEL</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Options</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="CheckUser">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Normally, only the superuser can mount filesystems. However, when fstab contains the &lt;span style=&quot; font-weight:700;&quot;&gt;user&lt;/span&gt; option on a line, anybody can mount the corresponding filesystem.&lt;/p&gt;&lt;p&gt;Only the user that mounted a filesystem can unmount it again. If any user should be able to unmount it, then use &lt;span style=&quot; font-weight:700;&quot;&gt;users&lt;/span&gt; instead of user in the fstab line.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>user</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Idle Timeout:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="CheckNofail">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;With &lt;span style=&quot; font-weight:700;&quot;&gt;nofail&lt;/span&gt;, this mount will be only wanted, not required, by &lt;span style=&quot; font-style:italic;&quot;&gt;local-fs.target&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;remote-fs.target&lt;/span&gt;. &lt;/p&gt;&lt;p&gt;Moreover the mount unit is not ordered before these target units. &lt;/p&gt;&lt;p&gt;This means that the boot will continue without waiting for the mount unit and regardless whether the mount point can be mounted  successfully.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>nofail</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="CheckAutomount">
+          <property name="toolTip">
+           <string>An automount unit will be created for the file system.</string>
+          </property>
+          <property name="text">
+           <string>automount</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="EditMountTimeout">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configures the time to wait for the &lt;span style=&quot; font-style:italic;&quot;&gt;mount&lt;/span&gt; command to finish. If a command does not exit within the configured time, the mount will be considered failed and be shut down again. &lt;/p&gt;&lt;p&gt;Specify a time in seconds or explicitly append units such as &amp;quot;s&amp;quot;, &amp;quot;m&amp;quot; and &amp;quot;h&amp;quot;. &lt;br/&gt;Examples: &lt;span style=&quot; font-weight:700;&quot;&gt;600&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;10m&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;1h&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;1h10m5s&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="CheckForceUnmount">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Force an unmount (in case of an unreachable NFS system). &lt;/p&gt;&lt;p&gt;This corresponds with &lt;span style=&quot; font-style:italic;&quot;&gt;umount&lt;/span&gt;'s -f switch.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>force unmount</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Mount Timeout:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="CheckNoauto">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;With &lt;span style=&quot; font-weight:700;&quot;&gt;noauto&lt;/span&gt;, the mount unit will not be added as a dependency for &lt;span style=&quot; font-style:italic;&quot;&gt;local-fs.target&lt;/span&gt; or &lt;span style=&quot; font-style:italic;&quot;&gt;remote-fs.target&lt;/span&gt;. This means that it will not be mounted automatically during boot, unless it is pulled in by some other unit. &lt;/p&gt;&lt;p&gt;Note that if automount is used, neither &lt;span style=&quot; font-weight:700;&quot;&gt;auto&lt;/span&gt; nor &lt;span style=&quot; font-weight:700;&quot;&gt;noauto&lt;/span&gt; have any effect. The matching automount unit will be added as a dependency to the appropriate target.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>noauto</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="CheckRwOnly">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If a mount operation fails to mount the file system read-write, it normally tries mounting the file system read-only instead. &lt;/p&gt;&lt;p&gt;This option disables that behaviour, and causes the mount to fail immediately instead. &lt;/p&gt;&lt;p&gt;This option is translated into the &lt;span style=&quot; font-style:italic;&quot;&gt;ReadWriteOnly&lt;/span&gt;= setting in a unit file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>rw-only</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="EditIdleTimeout">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Configures the idle timeout of the automount unit.&lt;/p&gt;&lt;p&gt;Specify a time in seconds or explicitly append units such as &amp;quot;s&amp;quot;,  &amp;quot;m&amp;quot; and &amp;quot;h&amp;quot;. &lt;br/&gt;Examples: &lt;span style=&quot; font-weight:700;&quot;&gt;600&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;10m&lt;/span&gt;, &lt;span style=&quot; font-weight:700;&quot;&gt;1h&lt;/span&gt;,  &lt;span style=&quot; font-weight:700;&quot;&gt;1h10m5s&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="CheckFsck">
+     <property name="text">
+      <string>Require filesystem check (fsck)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="horizontalSpacing">
+      <number>16</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>8</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>What:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Where:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="LabelWhat">
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="LabelWhere">
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="margin" stdset="0">
+      <number>0</number>
+     </property>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="2" margin="1"/>
+ <tabstops>
+  <tabstop>EditFileName</tabstop>
+  <tabstop>RadioPATH</tabstop>
+  <tabstop>RadioUUID</tabstop>
+  <tabstop>RadioLABEL</tabstop>
+  <tabstop>RadioPARTUUID</tabstop>
+  <tabstop>RadioPARTLABEL</tabstop>
+  <tabstop>CheckNofail</tabstop>
+  <tabstop>CheckNoauto</tabstop>
+  <tabstop>CheckRwOnly</tabstop>
+  <tabstop>CheckUser</tabstop>
+  <tabstop>CheckAutomount</tabstop>
+  <tabstop>CheckForceUnmount</tabstop>
+  <tabstop>EditMountTimeout</tabstop>
+  <tabstop>EditIdleTimeout</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>153</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>153</x>
+     <y>110</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioPATH</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>RadioSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioLABEL</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>RadioSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioPARTLABEL</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>RadioSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioUUID</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>RadioSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RadioPARTUUID</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>RadioSelect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SystemdDialog</receiver>
+   <slot>Accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>5</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>5</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
+ <slots>
+  <slot>RadioSelect()</slot>
+  <slot>Accept()</slot>
+ </slots>
+</ui>

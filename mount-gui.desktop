@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Mount GUI
+Icon=mount-gui
+Exec=pkexec mount-gui
+Categories=System;
+StartupNotify=true

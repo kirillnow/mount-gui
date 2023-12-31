@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mount-gui.conf</file>
+        <file>icons/hdd.png</file>
+        <file>icons/share.png</file>
+        <file>icons/nmap.png</file>
+        <file>icons/host.png</file>
+        <file>icons/usb-hdd.png</file>
+        <file>icons/usb-stick.png</file>
+        <file>icons/cd.png</file>
+        <file>icons/nvme.png</file>
+        <file>icons/loop.png</file>
+        <file>icons/fdd.png</file>
+        <file>icons/preferences-system.png</file>
+        <file>icons/emblem-system.png</file>
+        <file>icons/view-refresh.png</file>
+        <file>icons/document-properties.png</file>
+        <file>icons/document-save-as.png</file>
+        <file>help/mount.html</file>
+        <file>help/ext4.html</file>
+        <file>help/btrfs.html</file>
+        <file>help/nfs.html</file>
+        <file>help/ntfs.html</file>
+        <file>help/cifs.html</file>
+        <file>help/fuse.html</file>
+        <file>icons/mount-gui.png</file>
+    </qresource>
+</RCC>
