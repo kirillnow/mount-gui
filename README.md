@@ -1,6 +1,6 @@
 # Mount-GUI
 
-![Screenshot1](img/mount-gui.png) ![Screenshot2](img/mount-gui2.png)
+<img src="img/mount-gui.png" width="502" /> <img src="img/mount-gui2.png" width="441" />
 
 - Quickly mount anything, anywhere, with any options.
 - Save default options for the file systems and devices.
