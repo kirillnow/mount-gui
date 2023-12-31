@@ -1,0 +1,730 @@
+<!-- Creator     : groff version 1.23.0 -->
+<!-- CreationDate: Mon Aug 28 10:18:39 2023 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+       pre { margin-left: 8px; margin-top: 0; margin-bottom: 0; vertical-align: top; }
+       body { background-color: #202020; color: white; 
+              font-family: Monospace; font-weight: 400;  
+              font-size: 12pt; margin-right: 16px;     }
+</style>
+<title>NTFS-3G</title>
+
+</head>
+<body>
+
+<h1 align="center">NTFS-3G</h1>
+
+<p style="margin-left:9%; margin-top: 1em">ntfs-3g &minus;
+Third Generation Read/Write NTFS Driver</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em"><b>ntfs-3g
+[-o</b> <i>option</i><b>[,...]]</b> <i>volume
+mount_point</i> <b><br>
+mount &minus;t ntfs-3g [-o</b> <i>option</i><b>[,...]]</b>
+<i>volume mount_point</i> <b><br>
+lowntfs-3g [-o</b> <i>option</i><b>[,...]]</b> <i>volume
+mount_point</i> <b><br>
+mount &minus;t lowntfs-3g [-o</b>
+<i>option</i><b>[,...]]</b> <i>volume mount_point</i></p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+
+<p style="margin-left:9%; margin-top: 1em"><i><b>ntfs-3g</b></i>
+is an NTFS driver, which can create, remove, rename, move
+files, directories, hard links, and streams; it can read and
+write files, including streams, sparse files and
+transparently compressed files; it can handle special files
+like symbolic links, devices, and FIFOs; moreover it
+provides standard management of file ownership and
+permissions, including POSIX ACLs.</p>
+
+<p style="margin-left:9%; margin-top: 1em">It comes in two
+variants <b>ntfs-3g</b> and <b>lowntfs-3g</b> with a few
+differences mentioned below in relevant options
+descriptions.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The
+<i>volume</i> to be mounted can be either a block device or
+an image file, either by using the mount command or starting
+the drive.</p>
+
+<h3>Windows hibernation and fast restarting
+<a name="Windows hibernation and fast restarting"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">On computers
+which can be dual-booted into Windows or Linux, Windows has
+to be fully shut down before booting into Linux, otherwise
+the NTFS file systems on internal disks may be left in an
+inconsistent state and changes made by Linux may be ignored
+by Windows.</p>
+
+<p style="margin-left:9%; margin-top: 1em">So, Windows may
+not be left in hibernation when starting Linux, in order to
+avoid inconsistencies. Moreover, the fast restart feature
+available on recent Windows systems has to be disabled. This
+can be achieved by issuing as an Administrator the Windows
+command which disables both hibernation and fast restarting
+:</p>
+
+<p style="margin-left:18%; margin-top: 1em">powercfg /h
+off</p>
+
+<p style="margin-left:9%; margin-top: 1em">If either
+Windows is hibernated or its fast restart is enabled,
+partitions on internal disks are forced to be mounted in
+read-only mode.</p>
+
+<h3>Access Handling and Security
+<a name="Access Handling and Security"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">By default,
+files and directories are owned by the effective user and
+group of the mounting process, and everybody has full read,
+write, execution and directory browsing permissions. You can
+also assign permissions to a single user by using the
+<b>uid</b> and/or the <b>gid</b> options together with the
+<b>umask,</b> or <b>fmask</b> and <b>dmask</b> options.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Doing so, all
+Windows users have full access to the files created by
+<b>ntfs-3g.</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">But, by setting
+the <b>permissions</b> option, you can benefit from the full
+ownership and permissions features as defined by POSIX.
+Moreover, by defining a Windows-to-Linux user mapping, the
+ownerships and permissions are even applied to Windows users
+and conversely.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If
+<b>ntfs-3g</b> is set setuid-root then non-root users will
+be also able to mount volumes.</p>
+
+<h3>Windows Filename Compatibility
+<a name="Windows Filename Compatibility"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">NTFS supports
+several filename namespaces: DOS, Win32 and POSIX. While the
+<b>ntfs-3g</b> driver handles all of them, it always creates
+new files in the POSIX namespace for maximum portability and
+interoperability reasons. This means that filenames are case
+sensitive and all characters are allowed except
+&rsquo;/&rsquo; and &rsquo;\0&rsquo;. This is perfectly
+legal on Windows, though some application may get confused.
+The option <b>windows_names</b> may be used to apply Windows
+restrictions to new file names.</p>
+
+<h3>Alternate Data Streams (ADS)
+<a name="Alternate Data Streams (ADS)"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">NTFS stores all
+data in streams. Every file has exactly one unnamed data
+stream and can have many named data streams. The size of a
+file is the size of its unnamed data stream. By default,
+<b>ntfs-3g</b> will only read the unnamed data stream.</p>
+
+<p style="margin-left:9%; margin-top: 1em">By using the
+option <b>streams_interface=windows</b>, with the ntfs-3g
+driver (not possible with lowntfs-3g), you will be able to
+read any named data streams, simply by specifying the stream
+name after a colon. For example:</p>
+
+<p style="margin-left:18%; margin-top: 1em">cat
+some.mp3:artist</p>
+
+<p style="margin-left:9%; margin-top: 1em">Named data
+streams act like normal files, so you can read from them,
+write to them and even delete them (using rm). You can list
+all the named data streams a file has by getting the
+<b>ntfs.streams.list</b> extended attribute.</p>
+
+<h2>OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+<p style="margin-left:9%; margin-top: 1em">Refer to
+<a href="mount.html#OPTIONS">mount(8)</a> for a description of generic mount options
+available for all file systems. Below is a
+summary of the options that <b>ntfs-3g</b> accepts.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="4%">
+
+
+<p><b>acl</b></p></td>
+<td width="5%"></td>
+<td width="82%">
+
+
+<p>Enable setting Posix ACLs on created files and use them
+for access control. This option is only available on
+specific builds. It is set by default when a user mapping
+file is present and the <b>permissions</b> mount option is
+not set.</p></td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>allow_other</b></p>
+
+<p style="margin-left:18%;">This option overrides the
+security measure restricting file access to the user
+mounting the filesystem. This option is only allowed to
+root, but this restriction can be overridden by the
+<b>user_allow_other</b> option in the /etc/fuse.conf
+file.</p>
+
+<p style="margin-left:9%;"><b>atime, noatime,
+relatime</b></p>
+
+<p style="margin-left:18%;">The <b>atime</b> option updates
+inode access time for each access.</p>
+
+<p style="margin-left:18%; margin-top: 1em">The
+<b>noatime</b> option disables inode access time updates,
+which can speed up file operations and prevent sleeping
+(notebook) disks spinning up too often thus saving energy
+and disk lifetime.</p>
+
+<p style="margin-left:18%; margin-top: 1em">The
+<b>relatime</b> option is very similar to <b>noatime.</b> It
+updates inode access times relative to modify or change
+time. The access time is only updated if the previous access
+time was earlier than the current modify or change time.
+Unlike <b>noatime</b> this option doesn&rsquo;t break
+applications that need to know if a file has been read since
+the last time it was modified. This is the default
+behaviour.</p>
+
+<p style="margin-left:9%;"><b>big_writes</b></p>
+
+<p style="margin-left:18%;">This option prevents fuse from
+splitting write buffers into 4K chunks, enabling big write
+buffers to be transferred from the application in a single
+step (up to some system limit, generally 128K bytes).</p>
+
+<p style="margin-left:9%;"><b>compression</b></p>
+
+<p style="margin-left:18%;">This option enables creating
+new transparently compressed files in directories marked for
+compression. A directory is marked for compression by
+setting the bit 11 (value 0x00000800) in its Windows
+attribute. In such a directory, new files are created
+compressed and new subdirectories are themselves marked for
+compression. The option and the flag have no effect on
+existing files. Currently this is the default option.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="6%">
+
+
+<p><b>debug</b></p></td>
+<td width="3%"></td>
+<td width="82%">
+
+
+<p>Makes ntfs-3g (or lowntfs-3g) to print a lot of debug
+output from libntfs-3g and FUSE.</p></td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>delay_mtime[= value]</b></p>
+
+<p style="margin-left:18%;">Only update the file
+modification time and the file change time of a file when it
+is closed or when the indicated delay since the previous
+update has elapsed. The argument is a number of seconds,
+with a default value of 60. This is mainly useful for big
+files which are kept open for a long time and written to
+without changing their size, such as databases or file
+system images mounted as loop.</p>
+
+<p style="margin-left:9%;"><b>dmask=</b><i>value</i></p>
+
+<p style="margin-left:18%;">Set the bitmask of the
+directory permissions that are not present. The value is
+given in octal. The default value is 0 which means full
+access to everybody.</p>
+
+<p style="margin-left:9%;"><b>efs_raw</b></p>
+
+<p style="margin-left:18%;">This option should only be used
+in backup or restore situation. It changes the apparent size
+of files and the behavior of read and write operation so
+that encrypted files can be saved and restored without being
+decrypted. The <b>user.ntfs.efsinfo</b> extended attribute
+has also to be saved and restored for the file to be
+decrypted.</p>
+
+<p style="margin-left:9%;"><b>fmask=</b><i>value</i></p>
+
+<p style="margin-left:18%;">Set the bitmask of the file
+permissions that are not present. The value is given in
+octal. The default value is 0 which means full access to
+everybody.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="6%">
+
+
+<p><b>force</b></p></td>
+<td width="3%"></td>
+<td width="82%">
+
+
+<p>This option is obsolete. It has been superseded by the
+<b>recover</b> and <b>norecover</b> options.</p></td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>hide_dot_files</b></p>
+
+<p style="margin-left:18%;">Set the hidden flag in the NTFS
+attribute for created files and directories whose first
+character of the name is a dot. Such files and directories
+normally do not appear in directory listings, and when the
+flag is set they do not appear in Windows directory displays
+either. When a file is renamed or linked with a new name,
+the hidden flag is adjusted to the latest name.</p>
+
+<p style="margin-left:9%;"><b>hide_hid_files</b></p>
+
+<p style="margin-left:18%;">Hide the hidden files and
+directories in directory listings, the hidden files and
+directories being the ones whose NTFS attribute have the
+hidden flag set. The hidden files will not be selected when
+using wildcards in commands, but all files and directories
+remain accessible by full name, for example you can always
+display the Windows trash bin directory by : &quot;ls
+&minus;ld &rsquo;$RECYCLE.BIN&rsquo;&quot;.</p>
+
+<p style="margin-left:9%;"><b>ignore_case</b> (only with
+lowntfs-3g)</p>
+
+<p style="margin-left:18%;">Ignore character case when
+accessing a file (<b>FOO</b>, <b>Foo</b>, <b>foo</b>, etc.
+designate the same file). All files are displayed with lower
+case in directory listings.</p>
+
+<p style="margin-left:9%;"><b>inherit</b></p>
+
+<p style="margin-left:18%;">When creating a new file, set
+its initial protections according to inheritance rules
+defined in parent directory. These rules deviate from Posix
+specifications, but yield a better Windows compatibility.
+The <b>permissions</b> (or **acl**) option or a valid user
+mapping file is required for this option to be
+effective.</p>
+
+<p style="margin-left:9%;"><b>locale=</b><i>value</i></p>
+
+<p style="margin-left:18%;">This option can be useful when
+wanting a language specific locale environment. It is
+however discouraged as it leads to files with untranslatable
+characters to not be visible.</p>
+
+
+<p style="margin-left:9%;"><b>max_read=</b><i>value</i></p>
+
+<p style="margin-left:18%;">With this option the maximum
+size of read operations can be set. The default is infinite.
+Note that the size of read requests is limited anyway by the
+system (usually to 128kbyte).</p>
+
+<p style="margin-left:9%;"><b>no_def_opts</b></p>
+
+<p style="margin-left:18%;">By default ntfs-3g acts as if
+<b>silent</b> (ignore permission errors when permissions are
+not enabled), <b>allow_other</b> (allow any user to access
+files) and <b>nonempty</b> (allow mounting on non-empty
+directories) were set, and <b>no_def_opts</b> cancels these
+default options.</p>
+
+<p style="margin-left:9%;"><b>no_detach</b></p>
+
+<p style="margin-left:18%;">Makes ntfs-3g to not detach
+from terminal and print some debug output.</p>
+
+<p style="margin-left:9%;"><b>nocompression</b></p>
+
+<p style="margin-left:18%;">This option disables creating
+new transparently compressed files in directories marked for
+compression. Existing compressed files can still be read and
+updated.</p>
+
+<p style="margin-left:9%;"><b>norecover</b></p>
+
+<p style="margin-left:18%;">Do not try to mount a partition
+which was not unmounted properly by Windows.</p>
+
+<p style="margin-left:9%;"><b>permissions</b></p>
+
+<p style="margin-left:18%;">Set standard permissions on
+created files and use standard access control. This option
+is set by default when a user mapping file is present.</p>
+
+<p style="margin-left:9%;"><b>posix_nlink</b></p>
+
+<p style="margin-left:18%;">Compute the count of hard links
+of a file or directory according to the POSIX
+specifications. When this option is not set, a count of 1 is
+set for directories, and the short name of files is
+accounted for. Using the option entails some penalty as the
+count is not stored and has to be computed.</p>
+
+<p style="margin-left:9%;"><b>recover</b></p>
+
+<p style="margin-left:18%;">Recover and try to mount a
+partition which was not unmounted properly by Windows. The
+Windows logfile is cleared, which may cause inconsistencies.
+Currently this is the default option.</p>
+
+<p style="margin-left:9%;"><b>remove_hiberfile</b></p>
+
+<p style="margin-left:18%;">When the NTFS volume is
+hibernated, a read-write mount is denied and a read-only
+mount is forced. One needs either to resume Windows and
+shutdown it properly, or use this option which will remove
+the Windows hibernation file. Please note, this means that
+the saved Windows session will be completely lost. Use this
+option under your own responsibility.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="3%">
+
+
+<p><b>ro</b></p></td>
+<td width="6%"></td>
+<td width="82%">
+
+
+<p>Mount the filesystem read&minus;only. Useful if Windows
+is hibernated or the NTFS journal file is unclean.</p></td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>show_sys_files</b></p>
+
+<p style="margin-left:18%;">Show the metafiles in directory
+listings. Otherwise the default behaviour is to hide the
+metafiles, which are special files used to store the NTFS
+structure. Please note that even when this option is
+specified, &quot;$MFT&quot; may not be visible due to a
+glibc bug. Furthermore, irrespectively of
+<b>show_sys_files</b>, all files are accessible by name, for
+example you can always do &quot;ls &minus;l
+&rsquo;$UpCase&rsquo;&quot;.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="8%">
+
+
+<p><b>silent</b></p></td>
+<td width="1%"></td>
+<td width="82%">
+
+
+<p>Do nothing, without returning any error, on chmod and
+chown operations and on permission checking errors, when the
+<b>permissions</b> option is not set and no user mapping
+file is defined. This option is on by default, and when set
+off (through option <b>no_def_opts</b>) ownership and
+permissions parameters have to be set.</p></td></tr>
+</table>
+
+
+<p style="margin-left:9%;"><b>special_files=</b><i>mode</i></p>
+
+<p style="margin-left:18%;">This option selects a mode for
+representing a special file to be created (symbolic link,
+socket, fifo, character or block device). The <i>mode</i>
+can be <b>interix</b> or <b>wsl</b>, and existing files in
+either mode are recognized irrespective of the selected
+mode. Interix is the traditional mode, used by default, and
+wsl is interoperable with Windows WSL, but it is not
+compatible with Windows versions earlier than Windows 10.
+Neither mode are interoperable with Windows.</p>
+
+
+<p style="margin-left:9%;"><b>streams_interface=</b><i>mode</i></p>
+
+<p style="margin-left:18%;">This option controls how the
+user can access Alternate Data Streams (ADS) or in other
+words, named data streams. The <i>mode</i> can be set to one
+of <b>none</b>, <b>windows</b> or <b>xattr</b>. If the
+option is set to <b>none</b>, the user will have no access
+to the named data streams. If it is set to <b>windows</b>
+(not possible with lowntfs-3g), then the user can access
+them just like in Windows (eg. cat file:stream). If
+it&rsquo;s set to <b>xattr</b>, then the named data streams
+are mapped to extended attributes and a user can manipulate
+them using <b>{get,set}fattr</b> utilities. The default is
+<b>xattr</b>.</p>
+
+<p style="margin-left:9%;"><b>uid=</b><i>value</i> and
+<b>gid=</b><i>value</i></p>
+
+<p style="margin-left:18%;">Set the owner and the group of
+files and directories. The values are numerical. The
+defaults are the uid and gid of the current process.</p>
+
+<p style="margin-left:9%;"><b>umask=</b><i>value</i></p>
+
+<p style="margin-left:18%;">Set the bitmask of the file and
+directory permissions that are not present. The value is
+given in octal. The default value is 0 which means full
+access to everybody.</p>
+
+
+<p style="margin-left:9%;"><b>usermapping=</b><i>file-name</i></p>
+
+<p style="margin-left:18%;">Use file <i>file-name</i> as
+the user mapping file instead of the default
+<b>.NTFS-3G/UserMapping</b>. If <i>file-name</i> defines a
+full path, the file must be located on a partition
+previously mounted. If it defines a relative path, it is
+interpreted relative to the root of NTFS partition being
+mounted.</p>
+
+<p style="margin-left:18%; margin-top: 1em">When a user
+mapping file is defined, the options <b>uid=</b>,
+<b>gid=</b>, <b>umask=</b>, <b>fmask=</b>, <b>dmask=</b> and
+<b>silent</b> are ignored.</p>
+
+<p style="margin-left:9%;"><b>user_xattr</b></p>
+
+<p style="margin-left:18%;">Same as
+<b>streams_interface=</b><i>xattr</i>.</p>
+
+<p style="margin-left:9%;"><b>windows_names</b></p>
+
+<p style="margin-left:18%;">This option prevents files,
+directories and extended attributes to be created with a
+name not allowed by windows, because</p>
+
+<p style="margin-left:27%; margin-top: 1em">- it contains
+some not allowed character, <br>
+- or the last character is a space or a dot, <br>
+- or the name is reserved.</p>
+
+<p style="margin-left:18%; margin-top: 1em">The forbidden
+characters are the nine characters &quot; * / : &lt; &gt; ?
+\ | and those whose code is less than 0x20, and the reserved
+names are CON, PRN, AUX, NUL, COM1..COM9, LPT1..LPT9, with
+no suffix or followed by a dot.</p>
+
+<p style="margin-left:18%; margin-top: 1em">Existing such
+files can still be read (and renamed).</p>
+
+<h2>USER MAPPING
+<a name="USER MAPPING"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">NTFS uses
+specific ids to record the ownership of files instead of the
+<b>uid</b> (user id) and <b>gid</b> (group id) used by
+Linux. As a consequence a mapping between the ids has to be
+defined for ownerships to be recorded into NTFS files and
+recognized.</p>
+
+<p style="margin-left:9%; margin-top: 1em">By default, this
+mapping is fetched from the file <b>.NTFS-3G/UserMapping</b>
+located in the NTFS partition. The option
+<b>usermapping=</b> may be used to define another location.
+When the option **permissions** is set and no mapping file
+is found, a default mapping is used.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Each line in the
+user mapping file defines a mapping. It is organized in
+three fields separated by colons. The first field identifies
+a <b>uid</b>, the second field identifies a <b>gid</b> and
+the third one identifies the corresponding NTFS id, known as
+a <b>SID</b>. The <b>uid</b> and the <b>gid</b> are optional
+and defining both of them for the same <b>SID</b> is not
+recommended.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If no
+interoperation with Windows is needed, you can use the
+option <b>permissions</b> to define a standard mapping.
+Alternately, you may define your own mapping by setting a
+single default mapping with no uid and gid. In both cases,
+files created on Linux will appear to Windows as owned by a
+foreign user, and files created on Windows will appear to
+Linux as owned by root. Just copy the example below and
+replace the 9 and 10-digit numbers by any number not greater
+than 4294967295. The resulting behavior is the same as the
+one with the option <b>permission</b> set with no ownership
+option and no user mapping file available.</p>
+
+
+<p style="margin-left:18%; margin-top: 1em"><b>::S-1-5-21-3141592653-589793238-462643383-10000</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">If a strong
+interoperation with Windows is needed, the mapping has to be
+defined for each user and group known to both system, and
+the <b>SID</b>s used by Windows has to be collected. This
+will lead to a user mapping file like :</p>
+
+
+<p style="margin-left:18%; margin-top: 1em"><b>john::S-1-5-21-3141592653-589793238-462643383-1008
+mary::S-1-5-21-3141592653-589793238-462643383-1009
+:smith:S-1-5-21-3141592653-589793238-462643383-513
+::S-1-5-21-3141592653-589793238-462643383-10000</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">The utility
+<b>ntfsusermap</b> may be used to create such a user mapping
+file.</p>
+
+<h2>EXAMPLES
+<a name="EXAMPLES"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Mount /dev/sda1
+to /mnt/windows:</p>
+
+<p style="margin-left:18%; margin-top: 1em"><b>ntfs-3g
+/dev/sda1 /mnt/windows</b></p>
+
+<p style="margin-left:9%;">or</p>
+
+<p style="margin-left:18%;"><b>mount -t ntfs-3g /dev/sda1
+/mnt/windows</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">Mount the ntfs
+data partition /dev/sda3 to /mnt/data with standard Linux
+permissions applied :</p>
+
+<p style="margin-left:18%; margin-top: 1em"><b>ntfs-3g -o
+permissions /dev/sda3 /mnt/data</b></p>
+
+<p style="margin-left:9%;">or</p>
+
+<p style="margin-left:18%;"><b>mount -t ntfs-3g -o
+permissions /dev/sda3 /mnt/data</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">Read&minus;only
+mount /dev/sda5 to /home/user/mnt and make user with uid
+1000 to be the owner of all files:</p>
+
+<p style="margin-left:18%; margin-top: 1em"><b>ntfs-3g
+/dev/sda5 /home/user/mnt &minus;o ro,uid=1000</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">/etc/fstab entry
+for the above (the sixth and last field has to be zero to
+avoid a file system check at boot time) :</p>
+
+<p style="margin-left:18%; margin-top: 1em"><b>/dev/sda5
+/home/user/mnt ntfs&minus;3g ro,uid=1000 0 0</b></p>
+
+<p style="margin-left:9%; margin-top: 1em">Unmount
+/mnt/windows:</p>
+
+<p style="margin-left:18%; margin-top: 1em"><b>umount
+/mnt/windows</b></p>
+
+<h2>EXIT CODES
+<a name="EXIT CODES"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">To facilitate
+the use of the <b>ntfs-3g</b> driver in scripts, an exit
+code is returned to give an indication of the mountability
+status of a volume. Value 0 means success, and all other
+ones mean an error. The unique error codes are documented in
+the <b>ntfs-3g.probe</b>(8) manual page.</p>
+
+<h2>KNOWN ISSUES
+<a name="KNOWN ISSUES"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Please see</p>
+
+
+<p style="margin-left:18%; margin-top: 1em">https://github.com/tuxera/ntfs-3g/wiki/NTFS-3G-FAQ</p>
+
+<p style="margin-left:9%; margin-top: 1em">for common
+questions and known issues. If you would find a new one in
+the latest release of the software then please post an
+ntfs-3g issue describing it in detail so that the
+development team can be aware of the issue and take care of
+it:</p>
+
+
+<p style="margin-left:18%; margin-top: 1em">https://github.com/tuxera/ntfs-3g/issues</p>
+
+<h2>AUTHORS
+<a name="AUTHORS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em"><b>ntfs-3g</b>
+was based on and a major improvement to ntfsmount and
+libntfs which were written by Yura Pakhuchiy and the
+Linux-NTFS team. The improvements were made, the ntfs-3g
+project was initiated and currently led by long time
+Linux-NTFS team developer Szabolcs Szakacsits
+(szaka@tuxera.com).</p>
+
+<h2>THANKS
+<a name="THANKS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Several people
+made heroic efforts, often over five or more years which
+resulted the ntfs-3g driver. Most importantly they are Anton
+Altaparmakov, Jean-Pierre Andr&eacute;, Erik Larsson,
+Richard Russon, Szabolcs Szakacsits, Yura Pakhuchiy, Yuval
+Fledel, and the author of the groundbreaking FUSE filesystem
+development framework, Miklos Szeredi.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:9%; margin-top: 1em"><b>ntfs-3g.probe</b>(8),
+<b>ntfsprogs</b>(8), <b>attr</b>(5), <b>getfattr</b>(1)</p>
+<hr>
+</body>
+</html>

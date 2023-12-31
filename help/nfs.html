@@ -1,0 +1,2387 @@
+<!-- Creator     : groff version 1.23.0 -->
+<!-- CreationDate: Tue Aug 29 11:12:44 2023 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta name="generator" content="groff -Thtml, see www.gnu.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="Content-Style" content="text/css">
+<style type="text/css">
+       p       { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       table   { margin-top: 0; margin-bottom: 0; vertical-align: top }
+       h1      { text-align: center }
+       pre { margin-left: 8px; margin-top: 0; margin-bottom: 0; vertical-align: top; }
+       body { background-color: #202020; color: white; 
+              font-family: Monospace; font-weight: 400;  
+              font-size: 12pt; margin-right: 16px;     }
+</style>
+<title>NFS</title>
+
+</head>
+<body>
+
+<h1 align="center">NFS</h1>
+
+<p style="margin-left:9%; margin-top: 1em">nfs &minus;
+fstab format and options for the <b>nfs</b> file systems</p>
+
+<h2>SYNOPSIS
+<a name="SYNOPSIS"></a>
+</h2>
+
+
+
+<p style="margin-left:9%; margin-top: 1em"><i>/etc/fstab</i></p>
+
+<h2>DESCRIPTION
+<a name="DESCRIPTION"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">NFS is an
+Internet Standard protocol created by Sun Microsystems in
+1984. NFS was developed to allow file sharing between
+systems residing on a local area network. Depending on
+kernel configuration, the Linux NFS client may support NFS
+versions 3, 4.0, 4.1, or 4.2.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The
+<b>mount</b>(8) command attaches a file system to the
+system&rsquo;s name space hierarchy at a given mount point.
+The <i>/etc/fstab</i> file describes how <b>mount</b>(8)
+should assemble a system&rsquo;s file name hierarchy from
+various independent file systems (including file systems
+exported by NFS servers). Each line in the <i>/etc/fstab</i>
+file describes a single file system, its mount point, and a
+set of default mount options for that mount point.</p>
+
+<p style="margin-left:9%; margin-top: 1em">For NFS file
+system mounts, a line in the <i>/etc/fstab</i> file
+specifies the server name, the path name of the exported
+server directory to mount, the local directory that is the
+mount point, the type of file system that is being mounted,
+and a list of mount options that control the way the
+filesystem is mounted and how the NFS client behaves when
+accessing files on this mount point. The fifth and sixth
+fields on each line are not used by NFS, thus conventionally
+each contain the digit zero. For example:</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="10%"></td>
+<td width="18%">
+
+
+<p>server:path</p></td>
+<td width="18%">
+
+
+<p>/mountpoint</p></td>
+<td width="12%">
+
+
+<p>fstype</p></td>
+<td width="25%">
+
+
+<p>option,option,...</p></td>
+<td width="17%">
+
+
+<p>0 0</p></td></tr>
+</table>
+
+<p style="margin-left:9%; margin-top: 1em">The
+server&rsquo;s hostname and export pathname are separated by
+a colon, while the mount options are separated by commas.
+The remaining fields are separated by blanks or tabs.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The
+server&rsquo;s hostname can be an unqualified hostname, a
+fully qualified domain name, a dotted quad IPv4 address, or
+an IPv6 address enclosed in square brackets. Link-local and
+site-local IPv6 addresses must be accompanied by an
+interface identifier. See <b>ipv6</b>(7) for details on
+specifying raw IPv6 addresses.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The
+<i>fstype</i> field contains &quot;nfs&quot;. Use of the
+&quot;nfs4&quot; fstype in <i>/etc/fstab</i> is
+deprecated.</p>
+
+<h2>MOUNT OPTIONS
+<a name="OPTIONS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Refer to
+<a href="mount.html#OPTIONS">mount(8)</a> for a description of generic mount options
+available for all file systems. If you do not need to
+specify any mount options, use the generic option
+<b>defaults</b> in <i>/etc/fstab</i>.</p>
+
+<h3>Options supported by all versions
+<a name="nfs"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">These options
+are valid to use with any NFS version.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p><b>nfsvers=</b><i>n</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p>The NFS protocol version number used to contact the
+server&rsquo;s NFS service. If the server does not support
+the requested version, the mount request fails. If this
+option is not specified, the client tries version 4.2 first,
+then negotiates down until it finds a version supported by
+the server.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p><b>vers=</b><i>n</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p>This option is an alternative to the <b>nfsvers</b>
+option. It is included for compatibility with other
+operating systems</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p><b>soft</b> / <b>hard</b></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p>Determines the recovery behavior of the NFS client after
+an NFS request times out. If neither option is specified (or
+if the <b>hard</b> option is specified), NFS requests are
+retried indefinitely. If the <b>soft</b> option is
+specified, then the NFS client fails an NFS request after
+<b>retrans</b> retransmissions have been sent, causing the
+NFS client to return an error to the calling
+application.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em"><i>NB:</i> A
+so-called &quot;soft&quot; timeout can cause silent data
+corruption in certain cases. As such, use the <b>soft</b>
+option only when client responsiveness is more important
+than data integrity. Using NFS over TCP or increasing the
+value of the <b>retrans</b> option may mitigate some of the
+risks of using the <b>soft</b> option.</p>
+
+<p style="margin-left:9%;"><b>softreval</b> /
+<b>nosoftreval</b></p>
+
+<p style="margin-left:28%;">In cases where the NFS server
+is down, it may be useful to allow the NFS client to
+continue to serve up paths and attributes from cache after
+<b>retrans</b> attempts to revalidate that cache have timed
+out. This may, for instance, be helpful when trying to
+unmount a filesystem tree from a server that is permanently
+down.</p>
+
+<p style="margin-left:28%; margin-top: 1em">It is possible
+to combine <b>softreval</b> with the <b>soft</b> mount
+option, in which case operations that cannot be served up
+from cache will time out and return an error after
+<b>retrans</b> attempts. The combination with the default
+<b>hard</b> mount option implies those uncached operations
+will continue to retry until a response is received from the
+server.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Note: the
+default mount option is <b>nosoftreval</b> which disallows
+fallback to cache when revalidation fails, and instead
+follows the behavior dictated by the <b>hard</b> or
+<b>soft</b> mount option.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="17%">
+
+
+<p><b>intr</b> / <b>nointr</b></p></td>
+<td width="2%"></td>
+<td width="72%">
+
+
+<p>This option is provided for backward compatibility. It
+is ignored after kernel 2.6.25.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="17%">
+
+
+<p><b>timeo=</b><i>n</i></p></td>
+<td width="2%"></td>
+<td width="72%">
+
+
+<p>The time in deciseconds (tenths of a second) the NFS
+client waits for a response before it retries an NFS
+request.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">For NFS over
+TCP the default <b>timeo</b> value is 600 (60 seconds). The
+NFS client performs linear backoff: After each
+retransmission the timeout is increased by <b>timeo</b> up
+to the maximum of 600 seconds.</p>
+
+<p style="margin-left:28%; margin-top: 1em">However, for
+NFS over UDP, the client uses an adaptive algorithm to
+estimate an appropriate timeout value for frequently used
+request types (such as READ and WRITE requests), but uses
+the <b>timeo</b> setting for infrequently used request types
+(such as FSINFO requests). If the <b>timeo</b> option is not
+specified, infrequently used request types are retried after
+1.1 seconds. After each retransmission, the NFS client
+doubles the timeout for that request, up to a maximum
+timeout length of 60 seconds.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="12%">
+
+
+<p style="margin-top: 1em"><b>retrans=</b><i>n</i></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The number of times the NFS
+client retries a request before it attempts further recovery
+action. If the <b>retrans</b> option is not specified, the
+NFS client tries each UDP request three times and each TCP
+request twice.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">The NFS client
+generates a &quot;server not responding&quot; message after
+<b>retrans</b> retries, then attempts further recovery
+(depending on whether the <b>hard</b> mount option is in
+effect).</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="9%">
+
+
+<p style="margin-top: 1em"><b>rsize=</b><i>n</i></p></td>
+<td width="10%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The maximum number of bytes in
+each network READ request that the NFS client can receive
+when reading data from a file on an NFS server. The actual
+data payload size of each NFS READ request is equal to or
+smaller than the <b>rsize</b> setting. The largest read
+payload supported by the Linux NFS client is 1,048,576 bytes
+(one megabyte).</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">The
+<b>rsize</b> value is a positive integral multiple of 1024.
+Specified <b>rsize</b> values lower than 1024 are replaced
+with 4096; values larger than 1048576 are replaced with
+1048576. If a specified value is within the supported range
+but not a multiple of 1024, it is rounded down to the
+nearest multiple of 1024.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If an
+<b>rsize</b> value is not specified, or if the specified
+<b>rsize</b> value is larger than the maximum that either
+client or server can support, the client and server
+negotiate the largest <b>rsize</b> value that they can both
+support.</p>
+
+<p style="margin-left:28%; margin-top: 1em">The
+<b>rsize</b> mount option as specified on the
+<b>mount</b>(8) command line appears in the <i>/etc/mtab</i>
+file. However, the effective <b>rsize</b> value negotiated
+by the client and server is reported in the
+<i>/proc/mounts</i> file.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="9%">
+
+
+<p style="margin-top: 1em"><b>wsize=</b><i>n</i></p></td>
+<td width="10%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The maximum number of bytes per
+network WRITE request that the NFS client can send when
+writing data to a file on an NFS server. The actual data
+payload size of each NFS WRITE request is equal to or
+smaller than the <b>wsize</b> setting. The largest write
+payload supported by the Linux NFS client is 1,048,576 bytes
+(one megabyte).</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Similar to
+<b>rsize</b> , the <b>wsize</b> value is a positive integral
+multiple of 1024. Specified <b>wsize</b> values lower than
+1024 are replaced with 4096; values larger than 1048576 are
+replaced with 1048576. If a specified value is within the
+supported range but not a multiple of 1024, it is rounded
+down to the nearest multiple of 1024.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If a
+<b>wsize</b> value is not specified, or if the specified
+<b>wsize</b> value is larger than the maximum that either
+client or server can support, the client and server
+negotiate the largest <b>wsize</b> value that they can both
+support.</p>
+
+<p style="margin-left:28%; margin-top: 1em">The
+<b>wsize</b> mount option as specified on the
+<b>mount</b>(8) command line appears in the <i>/etc/mtab</i>
+file. However, the effective <b>wsize</b> value negotiated
+by the client and server is reported in the
+<i>/proc/mounts</i> file.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="12%">
+
+
+<p style="margin-top: 1em"><b>ac</b> / <b>noac</b></p></td>
+<td width="7%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Selects whether the client may
+cache file attributes. If neither option is specified (or if
+<b>ac</b> is specified), the client caches file
+attributes.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">To improve
+performance, NFS clients cache file attributes. Every few
+seconds, an NFS client checks the server&rsquo;s version of
+each file&rsquo;s attributes for updates. Changes that occur
+on the server in those small intervals remain undetected
+until the client checks the server again. The <b>noac</b>
+option prevents clients from caching file attributes so that
+applications can more quickly detect file changes on the
+server.</p>
+
+<p style="margin-left:28%; margin-top: 1em">In addition to
+preventing the client from caching file attributes, the
+<b>noac</b> option forces application writes to become
+synchronous so that local changes to a file become visible
+on the server immediately. That way, other clients can
+quickly detect recent writes when they check the
+file&rsquo;s attributes.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Using the
+<b>noac</b> option provides greater cache coherence among
+NFS clients accessing the same files, but it extracts a
+significant performance penalty. As such, judicious use of
+file locking is encouraged instead. The DATA AND METADATA
+COHERENCE section contains a detailed discussion of these
+trade-offs.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p style="margin-top: 1em"><b>acregmin=</b><i>n</i></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The minimum time (in seconds)
+that the NFS client caches attributes of a regular file
+before it requests fresh attribute information from a
+server. If this option is not specified, the NFS client uses
+a 3-second minimum. See the DATA AND METADATA COHERENCE
+section for a full discussion of attribute caching.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p><b>acregmax=</b><i>n</i></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p>The maximum time (in seconds) that the NFS client caches
+attributes of a regular file before it requests fresh
+attribute information from a server. If this option is not
+specified, the NFS client uses a 60-second maximum. See the
+DATA AND METADATA COHERENCE section for a full discussion of
+attribute caching.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p><b>acdirmin=</b><i>n</i></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p>The minimum time (in seconds) that the NFS client caches
+attributes of a directory before it requests fresh attribute
+information from a server. If this option is not specified,
+the NFS client uses a 30-second minimum. See the DATA AND
+METADATA COHERENCE section for a full discussion of
+attribute caching.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p><b>acdirmax=</b><i>n</i></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p>The maximum time (in seconds) that the NFS client caches
+attributes of a directory before it requests fresh attribute
+information from a server. If this option is not specified,
+the NFS client uses a 60-second maximum. See the DATA AND
+METADATA COHERENCE section for a full discussion of
+attribute caching.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p><b>actimeo=</b><i>n</i></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p>Using <b>actimeo</b> sets all of <b>acregmin</b>,
+<b>acregmax</b>, <b>acdirmin</b>, and <b>acdirmax</b> to the
+same value. If this option is not specified, the NFS client
+uses the defaults for each of these options listed
+above.</p> </td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p><b>bg</b> / <b>fg</b></p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p>Determines how the <b>mount</b>(8) command behaves if an
+attempt to mount an export fails. The <b>fg</b> option
+causes <b>mount</b>(8) to exit with an error status if any
+part of the mount request times out or fails outright. This
+is called a &quot;foreground&quot; mount, and is the default
+behavior if neither the <b>fg</b> nor <b>bg</b> mount option
+is specified.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If the
+<b>bg</b> option is specified, a timeout or failure causes
+the <b>mount</b>(8) command to fork a child which continues
+to attempt to mount the export. The parent immediately
+returns with a zero exit code. This is known as a
+&quot;background&quot; mount.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If the local
+mount point directory is missing, the <b>mount</b>(8)
+command acts as if the mount request timed out. This permits
+nested NFS mounts specified in <i>/etc/fstab</i> to proceed
+in any order during system initialization, even if some NFS
+servers are not yet available. Alternatively these issues
+can be addressed using an automounter (refer to
+<b>automount</b>(8) for details).</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p style="margin-top: 1em"><b>nconnect=</b>n</p></td>
+<td width="6%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">When using a connection oriented
+protocol such as TCP, it may sometimes be advantageous to
+set up multiple connections between the client and server.
+For instance, if your clients and/or servers are equipped
+with multiple network interface cards (NICs), using multiple
+connections to spread the load may improve overall
+performance. In such cases, the <b>nconnect</b> option
+allows the user to specify the number of connections that
+should be established between the client and server up to a
+limit of 16.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Note that the
+<b>nconnect</b> option may also be used by some pNFS drivers
+to decide how many connections to set up to the data
+servers.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="17%">
+
+
+<p style="margin-top: 1em"><b>max_connect=</b>n</p></td>
+<td width="2%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">While <b>nconnect</b> option
+sets a limit on the number of connections that can be
+established to a given server IP, <b>max_connect</b> option
+allows the user to specify maximum number of connections to
+different server IPs that belong to the same NFSv4.1+ server
+(session trunkable connections) up to a limit of 16. When
+client discovers that it established a client ID to an
+already existing server, instead of dropping the newly
+created network transport, the client will add this new
+connection to the list of available transports for that RPC
+client.</p> </td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>rdirplus</b> /
+<b>nordirplus</b></p>
+
+<p style="margin-left:28%;">Selects whether to use NFS v3
+or v4 READDIRPLUS requests. If this option is not specified,
+the NFS client uses READDIRPLUS requests on NFS v3 or v4
+mounts to read small directories. Some applications perform
+better if the client uses only READDIR requests for all
+directories.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="9%">
+
+
+<p><b>retry=</b><i>n</i></p></td>
+<td width="10%"></td>
+<td width="72%">
+
+
+<p>The number of minutes that the <b>mount</b>(8) command
+retries an NFS mount operation in the foreground or
+background before giving up. If this option is not
+specified, the default value for foreground mounts is 2
+minutes, and the default value for background mounts is
+10000 minutes (80 minutes shy of one week). If a value of
+zero is specified, the <b>mount</b>(8) command exits
+immediately after the first failure.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Note that this
+only affects how many retries are made and doesn&rsquo;t
+affect the delay caused by each retry. For UDP each retry
+takes the time determined by the <b>timeo</b> and
+<b>retrans</b> options, which by default will be about 7
+seconds. For TCP the default is 3 minutes, but system TCP
+connection timeouts will sometimes limit the timeout of each
+retransmission to around 2 minutes.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>sec=</b><i>flavors</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">A colon-separated list of one or
+more security flavors to use for accessing files on the
+mounted export. If the server does not support any of these
+flavors, the mount operation fails. If <b>sec=</b> is not
+specified, the client attempts to find a security flavor
+that both the client and the server supports. Valid
+<i>flavors</i> are <b>none</b>, <b>sys</b>, <b>krb5</b>,
+<b>krb5i</b>, and <b>krb5p</b>. Refer to the SECURITY
+CONSIDERATIONS section for details.</p></td></tr>
+</table>
+
+<p style="margin-left:9%;"><b>sharecache</b> /
+<b>nosharecache</b></p>
+
+<p style="margin-left:28%;">Determines how the
+client&rsquo;s data cache and attribute cache are shared
+when mounting the same export more than once concurrently.
+Using the same cache reduces memory requirements on the
+client and presents identical file contents to applications
+when the same remote file is accessed via different mount
+points.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If neither
+option is specified, or if the <b>sharecache</b> option is
+specified, then a single cache is used for all mount points
+that access the same export. If the <b>nosharecache</b>
+option is specified, then that mount point gets a unique
+cache. Note that when data and attribute caches are shared,
+the mount options from the first mount point take effect for
+subsequent concurrent mounts of the same export.</p>
+
+<p style="margin-left:28%; margin-top: 1em">As of kernel
+2.6.18, the behavior specified by <b>nosharecache</b> is
+legacy caching behavior. This is considered a data risk
+since multiple cached copies of the same file on the same
+client can become out of sync following a local update of
+one of the copies.</p>
+
+<p style="margin-left:9%;"><b>resvport</b> /
+<b>noresvport</b></p>
+
+<p style="margin-left:28%;">Specifies whether the NFS
+client should use a privileged source port when
+communicating with an NFS server for this mount point. If
+this option is not specified, or the <b>resvport</b> option
+is specified, the NFS client uses a privileged source port.
+If the <b>noresvport</b> option is specified, the NFS client
+uses a non-privileged source port. This option is supported
+in kernels 2.6.28 and later.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Using
+non-privileged source ports helps increase the maximum
+number of NFS mount points allowed on a client, but NFS
+servers must be configured to allow clients to connect via
+non-privileged source ports.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Refer to the
+SECURITY CONSIDERATIONS section for important details.</p>
+
+
+<p style="margin-left:9%;"><b>lookupcache=</b><i>mode</i></p>
+
+<p style="margin-left:28%;">Specifies how the kernel
+manages its cache of directory entries for a given mount
+point. <i>mode</i> can be one of <b>all</b>, <b>none</b>,
+<b>pos</b>, or <b>positive</b>. This option is supported in
+kernels 2.6.28 and later.</p>
+
+<p style="margin-left:28%; margin-top: 1em">The Linux NFS
+client caches the result of all NFS LOOKUP requests. If the
+requested directory entry exists on the server, the result
+is referred to as <i>positive</i>. If the requested
+directory entry does not exist on the server, the result is
+referred to as <i>negative</i>.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If this option
+is not specified, or if <b>all</b> is specified, the client
+assumes both types of directory cache entries are valid
+until their parent directory&rsquo;s cached attributes
+expire.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>pos</b>
+or <b>positive</b> is specified, the client assumes positive
+entries are valid until their parent directory&rsquo;s
+cached attributes expire, but always revalidates negative
+entires before an application can use them.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>none</b>
+is specified, the client revalidates both types of directory
+cache entries before an application can use them. This
+permits quick detection of files that were created or
+removed by other clients, but can impact application and
+server performance.</p>
+
+<p style="margin-left:28%; margin-top: 1em">The DATA AND
+METADATA COHERENCE section contains a detailed discussion of
+these trade-offs.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>fsc</b> / <b>nofsc</b></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>Enable/Disables the cache of (read-only) data pages to
+the local disk using the FS-Cache facility. See
+cachefilesd(8) and
+&lt;kernel_source&gt;/Documentation/filesystems/caching for
+detail on how to configure the FS-Cache facility. Default
+value is nofsc.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>sloppy</b></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>The <b>sloppy</b> option is an alternative to specifying
+<b>mount.nfs</b> -s <b>option.</b></p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>xprtsec=</b><i>policy</i></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>Specifies the use of transport layer security to protect
+NFS network traffic on behalf of this mount point.
+<i>policy</i> can be one of <b>none</b>, <b>tls</b>, or
+<b>mtls</b>.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>none</b>
+is specified, transport layer security is forced off, even
+if the NFS server supports transport layer security. If
+<b>tls</b> is specified, the client uses RPC-with-TLS to
+provide in-transit confidentiality. If <b>mtls</b> is
+specified, the client uses RPC-with-TLS to authenticate
+itself and to provide in-transit confidentiality. If the
+server does not support RPC-with-TLS or peer authentication
+fails, the mount attempt fails.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If the
+<b>xprtsec=</b> option is not specified, the default
+behavior depends on the kernel, but is usually equivalent to
+<b>xprtsec=none</b>.</p>
+
+<h3>Options for NFS versions 2 and 3 only
+<a name="nfs3"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Use these
+options, along with the options in the above subsection, for
+NFS versions 2 and 3 only.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>proto=</b><i>netid</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The <i>netid</i> determines the
+transport that is used to communicate with the NFS server.
+Available options are <b>udp</b>, <b>udp6</b>, <b>tcp</b>,
+<b>tcp6</b>, <b>rdma</b>, and <b>rdma6</b>. Those which end
+in <b>6</b> use IPv6 addresses and are only available if
+support for TI-RPC is built in. Others use IPv4
+addresses.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Each transport
+protocol uses different default <b>retrans</b> and
+<b>timeo</b> settings. Refer to the description of these two
+mount options for details.</p>
+
+<p style="margin-left:28%; margin-top: 1em">In addition to
+controlling how the NFS client transmits requests to the
+server, this mount option also controls how the
+<b>mount</b>(8) command communicates with the server&rsquo;s
+rpcbind and mountd services. Specifying a netid that uses
+TCP forces all traffic from the <b>mount</b>(8) command and
+the NFS client to use TCP. Specifying a netid that uses UDP
+forces all traffic types to use UDP.</p>
+
+<p style="margin-left:28%; margin-top: 1em"><b>Before using
+NFS over UDP, refer to the TRANSPORT METHODS
+section.</b></p>
+
+<p style="margin-left:28%; margin-top: 1em">If the
+<b>proto</b> mount option is not specified, the
+<b>mount</b>(8) command discovers which protocols the server
+supports and chooses an appropriate transport for each
+service. Refer to the TRANSPORT METHODS section for more
+details.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="4%">
+
+
+<p style="margin-top: 1em"><b>udp</b></p></td>
+<td width="15%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The <b>udp</b> option is an
+alternative to specifying <b>proto=udp.</b> It is included
+for compatibility with other operating systems.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em"><b>Before using
+NFS over UDP, refer to the TRANSPORT METHODS
+section.</b></p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="8%">
+
+
+<p style="margin-top: 1em"><b>tcp</b></p></td>
+<td width="11%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The <b>tcp</b> option is an
+alternative to specifying <b>proto=tcp.</b> It is included
+for compatibility with other operating systems.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="8%">
+
+
+<p><b>rdma</b></p></td>
+<td width="11%"></td>
+<td width="72%">
+
+
+<p>The <b>rdma</b> option is an alternative to specifying
+<b>proto=rdma.</b></p> </td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="8%">
+
+
+<p><b>port=</b><i>n</i></p></td>
+<td width="11%"></td>
+<td width="72%">
+
+
+<p>The numeric value of the server&rsquo;s NFS service
+port. If the server&rsquo;s NFS service is not available on
+the specified port, the mount request fails.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If this option
+is not specified, or if the specified port value is 0, then
+the NFS client uses the NFS service port number advertised
+by the server&rsquo;s rpcbind service. The mount request
+fails if the server&rsquo;s rpcbind service is not
+available, the server&rsquo;s NFS service is not registered
+with its rpcbind service, or the server&rsquo;s NFS service
+is not available on the advertised port.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>mountport=</b><i>n</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The numeric value of the
+server&rsquo;s mountd port. If the server&rsquo;s mountd
+service is not available on the specified port, the mount
+request fails.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If this option
+is not specified, or if the specified port value is 0, then
+the <b>mount</b>(8) command uses the mountd service port
+number advertised by the server&rsquo;s rpcbind service. The
+mount request fails if the server&rsquo;s rpcbind service is
+not available, the server&rsquo;s mountd service is not
+registered with its rpcbind service, or the server&rsquo;s
+mountd service is not available on the advertised port.</p>
+
+<p style="margin-left:28%; margin-top: 1em">This option can
+be used when mounting an NFS server through a firewall that
+blocks the rpcbind protocol.</p>
+
+
+<p style="margin-left:9%;"><b>mountproto=</b><i>netid</i></p>
+
+<p style="margin-left:28%;">The transport the NFS client
+uses to transmit requests to the NFS server&rsquo;s mountd
+service when performing this mount request, and when later
+unmounting this mount point.</p>
+
+<p style="margin-left:28%; margin-top: 1em"><i>netid</i>
+may be one of <b>udp</b>, and <b>tcp</b> which use IPv4
+address or, if TI-RPC is built into the <b>mount.nfs</b>
+command, <b>udp6</b>, and <b>tcp6</b> which use IPv6
+addresses.</p>
+
+<p style="margin-left:28%; margin-top: 1em">This option can
+be used when mounting an NFS server through a firewall that
+blocks a particular transport. When used in combination with
+the <b>proto</b> option, different transports for mountd
+requests and NFS requests can be specified. If the
+server&rsquo;s mountd service is not available via the
+specified transport, the mount request fails.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Refer to the
+TRANSPORT METHODS section for more on how the
+<b>mountproto</b> mount option interacts with the
+<b>proto</b> mount option.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>mounthost=</b><i>name</i></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>The hostname of the host running mountd. If this option
+is not specified, the <b>mount</b>(8) command assumes that
+the mountd service runs on the same host as the NFS
+service.</p> </td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>mountvers=</b><i>n</i></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>The RPC version number used to contact the
+server&rsquo;s mountd. If this option is not specified, the
+client uses a version number appropriate to the requested
+NFS version. This option is useful when multiple NFS
+services are running on the same remote server host.</p></td></tr>
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+<p><b>namlen=</b><i>n</i></p></td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p>The maximum length of a pathname component on this
+mount. If this option is not specified, the maximum length
+is negotiated with the server. In most cases, this maximum
+length is 255 characters.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Some early
+versions of NFS did not support this negotiation. Using this
+option ensures that <b>pathconf</b>(3) reports the proper
+maximum component length to applications in such cases.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="17%">
+
+
+<p style="margin-top: 1em"><b>lock</b> / <b>nolock</b></p></td>
+<td width="2%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Selects whether to use the NLM
+sideband protocol to lock files on the server. If neither
+option is specified (or if <b>lock</b> is specified), NLM
+locking is used for this mount point. When using the
+<b>nolock</b> option, applications can lock files, but such
+locks provide exclusion only against other applications
+running on the same client. Remote applications are not
+affected by these locks.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">NLM locking
+must be disabled with the <b>nolock</b> option when using
+NFS to mount <i>/var</i> because <i>/var</i> contains files
+used by the NLM implementation on Linux. Using the
+<b>nolock</b> option is also required when mounting exports
+on NFS servers that do not support the NLM protocol.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>cto</b> / <b>nocto</b></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Selects whether to use
+close-to-open cache coherence semantics. If neither option
+is specified (or if <b>cto</b> is specified), the client
+uses close-to-open cache coherence semantics. If the
+<b>nocto</b> option is specified, the client uses a
+non-standard heuristic to determine when files on the server
+have changed.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Using the
+<b>nocto</b> option may improve performance for read-only
+mounts, but should be used only if the data on the server
+changes only occasionally. The DATA AND METADATA COHERENCE
+section discusses the behavior of this option in more
+detail.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>acl</b> / <b>noacl</b></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Selects whether to use the
+NFSACL sideband protocol on this mount point. The NFSACL
+sideband protocol is a proprietary protocol implemented in
+Solaris that manages Access Control Lists. NFSACL was never
+made a standard part of the NFS protocol specification.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If neither
+<b>acl</b> nor <b>noacl</b> option is specified, the NFS
+client negotiates with the server to see if the NFSACL
+protocol is supported, and uses it if the server supports
+it. Disabling the NFSACL sideband protocol may be necessary
+if the negotiation causes problems on the client or server.
+Refer to the SECURITY CONSIDERATIONS section for more
+details.</p>
+
+<p style="margin-left:9%;"><b>local_lock=</b>mechanism</p>
+
+<p style="margin-left:28%;">Specifies whether to use local
+locking for any or both of the flock and the POSIX locking
+mechanisms. <i>mechanism</i> can be one of <b>all</b>,
+<b>flock</b>, <b>posix</b>, or <b>none</b>. This option is
+supported in kernels 2.6.37 and later.</p>
+
+<p style="margin-left:28%; margin-top: 1em">The Linux NFS
+client provides a way to make locks local. This means, the
+applications can lock files, but such locks provide
+exclusion only against other applications running on the
+same client. Remote applications are not affected by these
+locks.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If this option
+is not specified, or if <b>none</b> is specified, the client
+assumes that the locks are not local.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>all</b>
+is specified, the client assumes that both flock and POSIX
+locks are local.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>flock</b>
+is specified, the client assumes that only flock locks are
+local and uses NLM sideband protocol to lock files when
+POSIX locks are used.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If <b>posix</b>
+is specified, the client assumes that POSIX locks are local
+and uses NLM sideband protocol to lock files when flock
+locks are used.</p>
+
+<p style="margin-left:28%; margin-top: 1em">To support
+legacy flock behavior similar to that of NFS clients &lt;
+2.6.12, use &rsquo;local_lock=flock&rsquo;. This option is
+required when exporting NFS mounts via Samba as Samba maps
+Windows share mode locks as flock. Since NFS clients &gt;
+2.6.12 implement flock by emulating POSIX locks, this will
+result in conflicting locks.</p>
+
+<p style="margin-left:28%; margin-top: 1em">NOTE: When used
+together, the &rsquo;local_lock&rsquo; mount option will be
+overridden by &rsquo;nolock&rsquo;/&rsquo;lock&rsquo; mount
+option.</p>
+
+<h3>Options for NFS version 4 only
+<a name="nfs4"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Use these
+options, along with the options in the first subsection
+above, for NFS version 4.0 and newer.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p><b>proto=</b><i>netid</i></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p>The <i>netid</i> determines the transport that is used
+to communicate with the NFS server. Supported options are
+<b>tcp</b>, <b>tcp6</b>, <b>rdma</b>, and <b>rdma6</b>.
+<b>tcp6</b> use IPv6 addresses and is only available if
+support for TI-RPC is built in. Both others use IPv4
+addresses.</p> </td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">All NFS version
+4 servers are required to support TCP, so if this mount
+option is not specified, the NFS version 4 client uses the
+TCP protocol. Refer to the TRANSPORT METHODS section for
+more details.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="18%">
+
+
+
+<p style="margin-top: 1em"><b>minorversion=</b><i>n</i></p> </td>
+<td width="1%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Specifies the protocol minor
+version number. NFSv4 introduces &quot;minor
+versioning,&quot; where NFS protocol enhancements can be
+introduced without bumping the NFS protocol version number.
+Before kernel 2.6.38, the minor version is always zero, and
+this option is not recognized. After this kernel, specifying
+&quot;minorversion=1&quot; enables a number of advanced
+features, such as NFSv4 sessions.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">Recent kernels
+allow the minor version to be specified using the
+<b>vers=</b> option. For example, specifying <b>vers=4.1</b>
+is the same as specifying <b>vers=4,minorversion=1</b>.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="8%">
+
+
+<p style="margin-top: 1em"><b>port=</b><i>n</i></p></td>
+<td width="11%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">The numeric value of the
+server&rsquo;s NFS service port. If the server&rsquo;s NFS
+service is not available on the specified port, the mount
+request fails.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">If this mount
+option is not specified, the NFS client uses the standard
+NFS port number of 2049 without first checking the
+server&rsquo;s rpcbind service. This allows an NFS version 4
+client to contact an NFS version 4 server through a firewall
+that may block rpcbind requests.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If the
+specified port value is 0, then the NFS client uses the NFS
+service port number advertised by the server&rsquo;s rpcbind
+service. The mount request fails if the server&rsquo;s
+rpcbind service is not available, the server&rsquo;s NFS
+service is not registered with its rpcbind service, or the
+server&rsquo;s NFS service is not available on the
+advertised port.</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="14%">
+
+
+<p style="margin-top: 1em"><b>cto</b> / <b>nocto</b></p></td>
+<td width="5%"></td>
+<td width="72%">
+
+
+<p style="margin-top: 1em">Selects whether to use
+close-to-open cache coherence semantics for NFS directories
+on this mount point. If neither <b>cto</b> nor <b>nocto</b>
+is specified, the default is to use close-to-open cache
+coherence semantics for directories.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">File data
+caching behavior is not affected by this option. The DATA
+AND METADATA COHERENCE section discusses the behavior of
+this option in more detail.</p>
+
+
+<p style="margin-left:9%;"><b>clientaddr=</b><i>n.n.n.n</i>
+<b><br>
+clientaddr=</b><i>n:n:</i><b>...</b><i>:n</i></p>
+
+<p style="margin-left:28%;">Specifies a single IPv4 address
+(in dotted-quad form), or a non-link-local IPv6 address,
+that the NFS client advertises to allow servers to perform
+NFS version 4.0 callback requests against files on this
+mount point. If the server is unable to establish callback
+connections to clients, performance may degrade, or accesses
+to files may temporarily hang. Can specify a value of
+IPv4_ANY (0.0.0.0) or equivalent IPv6 any address which will
+signal to the NFS server that this NFS client does not want
+delegations.</p>
+
+<p style="margin-left:28%; margin-top: 1em">If this option
+is not specified, the <b>mount</b>(8) command attempts to
+discover an appropriate callback address automatically. The
+automatic discovery process is not perfect, however. In the
+presence of multiple client network interfaces, special
+routing policies, or atypical network topologies, the exact
+address to use for callbacks may be nontrivial to
+determine.</p>
+
+<p style="margin-left:28%; margin-top: 1em">NFS protocol
+versions 4.1 and 4.2 use the client-established TCP
+connection for callback requests, so do not require the
+server to connect to the client. This option is therefore
+only affect NFS version 4.0 mounts.</p>
+
+<p style="margin-left:9%;"><b>migration</b> /
+<b>nomigration</b></p>
+
+<p style="margin-left:28%;">Selects whether the client uses
+an identification string that is compatible with NFSv4
+Transparent State Migration (TSM). If the mounted server
+supports NFSv4 migration with TSM, specify the
+<b>migration</b> option.</p>
+
+<p style="margin-left:28%; margin-top: 1em">Some server
+features misbehave in the face of a migration-compatible
+identification string. The <b>nomigration</b> option retains
+the use of a traditional client indentification string which
+is compatible with legacy NFS servers. This is also the
+behavior if neither option is specified. A client&rsquo;s
+open and lock state cannot be migrated transparently when it
+identifies itself via a traditional identification
+string.</p>
+
+<p style="margin-left:28%; margin-top: 1em">This mount
+option has no effect with NFSv4 minor versions newer than
+zero, which always use TSM-compatible client identification
+strings.</p>
+
+<h2>nfs4 FILE SYSTEM TYPE
+<a name="nfs4 FILE SYSTEM TYPE"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">The <b>nfs4</b>
+file system type is an old syntax for specifying NFSv4
+usage. It can still be used with all NFSv4-specific and
+common options, excepted the <b>nfsvers</b> mount
+option.</p>
+
+<h2>MOUNT CONFIGURATION FILE
+<a name="MOUNT CONFIGURATION FILE"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">If the mount
+command is configured to do so, all of the mount options
+described in the previous section can also be configured in
+the <i>/etc/nfsmount.conf</i> file. See
+<b>nfsmount.conf(5)</b> for details.</p>
+
+<h2>EXAMPLES
+<a name="EXAMPLES"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">mount option. To
+mount using NFS version 3, use the <b>nfs</b> file system
+type and specify the <b>nfsvers=3</b> mount option. To mount
+using NFS version 4, use either the <b>nfs</b> file system
+type, with the <b>nfsvers=4</b> mount option, or the
+<b>nfs4</b> file system type.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The following
+example from an <i>/etc/fstab</i> file causes the mount
+command to negotiate reasonable defaults for NFS
+behavior.</p>
+
+<p style="margin-left:9%; margin-top: 1em">server:/export
+/mnt nfs defaults 0 0</p>
+
+<p style="margin-left:9%; margin-top: 1em">This example
+shows how to mount using NFS version 4 over TCP with
+Kerberos 5 mutual authentication.</p>
+
+<p style="margin-left:9%; margin-top: 1em">server:/export
+/mnt nfs4 sec=krb5 0 0</p>
+
+<p style="margin-left:9%; margin-top: 1em">This example
+shows how to mount using NFS version 4 over TCP with
+Kerberos 5 privacy or data integrity mode.</p>
+
+<p style="margin-left:9%; margin-top: 1em">server:/export
+/mnt nfs4 sec=krb5p:krb5i 0 0</p>
+
+<p style="margin-left:9%; margin-top: 1em">This example can
+be used to mount /usr over NFS.</p>
+
+<p style="margin-left:9%; margin-top: 1em">server:/export
+/usr nfs ro,nolock,nocto,actimeo=3600 0 0</p>
+
+<p style="margin-left:9%; margin-top: 1em">This example
+shows how to mount an NFS server using a raw IPv6 link-local
+address.</p>
+
+
+<p style="margin-left:9%; margin-top: 1em">[fe80::215:c5ff:fb3e:e2b1%eth0]:/export
+/mnt nfs defaults 0 0</p>
+
+<h2>TRANSPORT METHODS
+<a name="TRANSPORT METHODS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">NFS clients send
+requests to NFS servers via Remote Procedure Calls, or
+<i>RPCs</i>. The RPC client discovers remote service
+endpoints automatically, handles per-request authentication,
+adjusts request parameters for different byte endianness on
+client and server, and retransmits requests that may have
+been lost by the network or server. RPC requests and replies
+flow over a network transport.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In most cases,
+the <b>mount</b>(8) command, NFS client, and NFS server can
+automatically negotiate proper transport and data transfer
+size settings for a mount point. In some cases, however, it
+pays to specify these settings explicitly using mount
+options.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Traditionally,
+NFS clients used the UDP transport exclusively for
+transmitting requests to servers. Though its implementation
+is simple, NFS over UDP has many limitations that prevent
+smooth operation and good performance in some common
+deployment environments. Even an insignificant packet loss
+rate results in the loss of whole NFS requests; as such,
+retransmit timeouts are usually in the subsecond range to
+allow clients to recover quickly from dropped requests, but
+this can result in extraneous network traffic and server
+load.</p>
+
+<p style="margin-left:9%; margin-top: 1em">However, UDP can
+be quite effective in specialized settings where the
+networks MTU is large relative to NFSs data transfer size
+(such as network environments that enable jumbo Ethernet
+frames). In such environments, trimming the <b>rsize</b> and
+<b>wsize</b> settings so that each NFS read or write request
+fits in just a few network frames (or even in a single
+frame) is advised. This reduces the probability that the
+loss of a single MTU-sized network frame results in the loss
+of an entire large read or write request.</p>
+
+<p style="margin-left:9%; margin-top: 1em">TCP is the
+default transport protocol used for all modern NFS
+implementations. It performs well in almost every
+conceivable network environment and provides excellent
+guarantees against data corruption caused by network
+unreliability. TCP is often a requirement for mounting a
+server through a network firewall.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Under normal
+circumstances, networks drop packets much more frequently
+than NFS servers drop requests. As such, an aggressive
+retransmit timeout setting for NFS over TCP is unnecessary.
+Typical timeout settings for NFS over TCP are between one
+and ten minutes. After the client exhausts its retransmits
+(the value of the <b>retrans</b> mount option), it assumes a
+network partition has occurred, and attempts to reconnect to
+the server on a fresh socket. Since TCP itself makes network
+data transfer reliable, <b>rsize</b> and <b>wsize</b> can
+safely be allowed to default to the largest values supported
+by both client and server, independent of the
+network&rsquo;s MTU size.</p>
+
+<h3>Using the mountproto mount option
+<a name="Using the mountproto mount option"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">This section
+applies only to NFS version 3 mounts since NFS version 4
+does not use a separate protocol for mount requests.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The Linux NFS
+client can use a different transport for contacting an NFS
+server&rsquo;s rpcbind service, its mountd service, its
+Network Lock Manager (NLM) service, and its NFS service. The
+exact transports employed by the Linux NFS client for each
+mount point depends on the settings of the transport mount
+options, which include <b>proto</b>, <b>mountproto</b>,
+<b>udp</b>, and <b>tcp</b>.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The client sends
+Network Status Manager (NSM) notifications via UDP no matter
+what transport options are specified, but listens for server
+NSM notifications on both UDP and TCP. The NFS Access
+Control List (NFSACL) protocol shares the same transport as
+the main NFS service.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If no transport
+options are specified, the Linux NFS client uses UDP to
+contact the server&rsquo;s mountd service, and TCP to
+contact its NLM and NFS services by default.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If the server
+does not support these transports for these services, the
+<b>mount</b>(8) command attempts to discover what the server
+supports, and then retries the mount request once using the
+discovered transports. If the server does not advertise any
+transport supported by the client or is misconfigured, the
+mount request fails. If the <b>bg</b> option is in effect,
+the mount command backgrounds itself and continues to
+attempt the specified mount request.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When the
+<b>proto</b> option, the <b>udp</b> option, or the
+<b>tcp</b> option is specified but the <b>mountproto</b>
+option is not, the specified transport is used to contact
+both the server&rsquo;s mountd service and for the NLM and
+NFS services.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If the
+<b>mountproto</b> option is specified but none of the
+<b>proto</b>, <b>udp</b> or <b>tcp</b> options are
+specified, then the specified transport is used for the
+initial mountd request, but the mount command attempts to
+discover what the server supports for the NFS protocol,
+preferring TCP if both transports are supported.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If both the
+<b>mountproto</b> and <b>proto</b> (or <b>udp</b> or
+<b>tcp</b>) options are specified, then the transport
+specified by the <b>mountproto</b> option is used for the
+initial mountd request, and the transport specified by the
+<b>proto</b> option (or the <b>udp</b> or <b>tcp</b>
+options) is used for NFS, no matter what order these options
+appear. No automatic service discovery is performed if these
+options are specified.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If any of the
+<b>proto</b>, <b>udp</b>, <b>tcp</b>, or <b>mountproto</b>
+options are specified more than once on the same mount
+command line, then the value of the rightmost instance of
+each of these options takes effect.</p>
+
+<h3>Using NFS over UDP on high-speed links
+<a name="Using NFS over UDP on high-speed links"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Using NFS over
+UDP on high-speed links such as Gigabit <b>can cause silent
+data corruption</b>.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The problem can
+be triggered at high loads, and is caused by problems in IP
+fragment reassembly. NFS read and writes typically transmit
+UDP packets of 4 Kilobytes or more, which have to be broken
+up into several fragments in order to be sent over the
+Ethernet link, which limits packets to 1500 bytes by
+default. This process happens at the IP network layer and is
+called fragmentation.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In order to
+identify fragments that belong together, IP assigns a 16bit
+<i>IP ID</i> value to each packet; fragments generated from
+the same UDP packet will have the same IP ID. The receiving
+system will collect these fragments and combine them to form
+the original UDP packet. This process is called reassembly.
+The default timeout for packet reassembly is 30 seconds; if
+the network stack does not receive all fragments of a given
+packet within this interval, it assumes the missing
+fragment(s) got lost and discards those it already
+received.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The problem this
+creates over high-speed links is that it is possible to send
+more than 65536 packets within 30 seconds. In fact, with
+heavy NFS traffic one can observe that the IP IDs repeat
+after about 5 seconds.</p>
+
+<p style="margin-left:9%; margin-top: 1em">This has serious
+effects on reassembly: if one fragment gets lost, another
+fragment <i>from a different packet</i> but with the <i>same
+IP ID</i> will arrive within the 30 second timeout, and the
+network stack will combine these fragments to form a new
+packet. Most of the time, network layers above IP will
+detect this mismatched reassembly - in the case of UDP, the
+UDP checksum, which is a 16 bit checksum over the entire
+packet payload, will usually not match, and UDP will discard
+the bad packet.</p>
+
+<p style="margin-left:9%; margin-top: 1em">However, the UDP
+checksum is 16 bit only, so there is a chance of 1 in 65536
+that it will match even if the packet payload is completely
+random (which very often isn&rsquo;t the case). If that is
+the case, silent data corruption will occur.</p>
+
+<p style="margin-left:9%; margin-top: 1em">This potential
+should be taken seriously, at least on Gigabit Ethernet.
+Network speeds of 100Mbit/s should be considered less
+problematic, because with most traffic patterns IP ID wrap
+around will take much longer than 30 seconds.</p>
+
+<p style="margin-left:9%; margin-top: 1em">It is therefore
+strongly recommended to use <b>NFS over TCP where
+possible</b>, since TCP does not perform fragmentation.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If you
+absolutely have to use NFS over UDP over Gigabit Ethernet,
+some steps can be taken to mitigate the problem and reduce
+the probability of corruption:</p>
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="17%">
+
+
+<p><i>Jumbo frames:</i></p></td>
+<td width="2%"></td>
+<td width="72%">
+
+
+<p>Many Gigabit network cards are capable of transmitting
+frames bigger than the 1500 byte limit of traditional
+Ethernet, typically 9000 bytes. Using jumbo frames of 9000
+bytes will allow you to run NFS over UDP at a page size of
+8K without fragmentation. Of course, this is only feasible
+if all involved stations support jumbo frames.</p></td></tr>
+</table>
+
+<p style="margin-left:28%; margin-top: 1em">To enable a
+machine to send jumbo frames on cards that support it, it is
+sufficient to configure the interface for a MTU value of
+9000.</p>
+
+<p style="margin-left:9%;"><i>Lower reassembly
+timeout:</i></p>
+
+<p style="margin-left:28%;">By lowering this timeout below
+the time it takes the IP ID counter to wrap around,
+incorrect reassembly of fragments can be prevented as well.
+To do so, simply write the new timeout value (in seconds) to
+the file <b>/proc/sys/net/ipv4/ipfrag_time</b>.</p>
+
+<p style="margin-left:28%; margin-top: 1em">A value of 2
+seconds will greatly reduce the probability of IPID clashes
+on a single Gigabit link, while still allowing for a
+reasonable timeout when receiving fragmented traffic from
+distant peers.</p>
+
+<h2>DATA AND METADATA COHERENCE
+<a name="DATA AND METADATA COHERENCE"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Some modern
+cluster file systems provide perfect cache coherence among
+their clients. Perfect cache coherence among disparate NFS
+clients is expensive to achieve, especially on wide area
+networks. As such, NFS settles for weaker cache coherence
+that satisfies the requirements of most file sharing
+types.</p>
+
+<h3>Close-to-open cache consistency
+<a name="Close-to-open cache consistency"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Typically file
+sharing is completely sequential. First client A opens a
+file, writes something to it, then closes it. Then client B
+opens the same file, and reads the changes.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When an
+application opens a file stored on an NFS version 3 server,
+the NFS client checks that the file exists on the server and
+is permitted to the opener by sending a GETATTR or ACCESS
+request. The NFS client sends these requests regardless of
+the freshness of the file&rsquo;s cached attributes.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When the
+application closes the file, the NFS client writes back any
+pending changes to the file so that the next opener can view
+the changes. This also gives the NFS client an opportunity
+to report write errors to the application via the return
+code from <b>close</b>(2).</p>
+
+<p style="margin-left:9%; margin-top: 1em">The behavior of
+checking at open time and flushing at close time is referred
+to as <i>close-to-open cache consistency</i>, or <i>CTO</i>.
+It can be disabled for an entire mount point using the
+<b>nocto</b> mount option.</p>
+
+<h3>Weak cache consistency
+<a name="Weak cache consistency"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">There are still
+opportunities for a client&rsquo;s data cache to contain
+stale data. The NFS version 3 protocol introduced &quot;weak
+cache consistency&quot; (also known as WCC) which provides a
+way of efficiently checking a file&rsquo;s attributes before
+and after a single request. This allows a client to help
+identify changes that could have been made by other
+clients.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When a client is
+using many concurrent operations that update the same file
+at the same time (for example, during asynchronous write
+behind), it is still difficult to tell whether it was that
+client&rsquo;s updates or some other client&rsquo;s updates
+that altered the file.</p>
+
+<h3>Attribute caching
+<a name="Attribute caching"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Use the
+<b>noac</b> mount option to achieve attribute cache
+coherence among multiple clients. Almost every file system
+operation checks file attribute information. The client
+keeps this information cached for a period of time to reduce
+network and server load. When <b>noac</b> is in effect, a
+client&rsquo;s file attribute cache is disabled, so each
+operation that needs to check a file&rsquo;s attributes is
+forced to go back to the server. This permits a client to
+see changes to a file very quickly, at the cost of many
+extra network operations.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Be careful not
+to confuse the <b>noac</b> option with &quot;no data
+caching.&quot; The <b>noac</b> mount option prevents the
+client from caching file metadata, but there are still races
+that may result in data cache incoherence between client and
+server.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The NFS protocol
+is not designed to support true cluster file system cache
+coherence without some type of application serialization. If
+absolute cache coherence among clients is required,
+applications should use file locking. Alternatively,
+applications can also open their files with the O_DIRECT
+flag to disable data caching entirely.</p>
+
+<h3>File timestamp maintenance
+<a name="File timestamp maintenance"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">NFS servers are
+responsible for managing file and directory timestamps
+(<b>atime</b>, <b>ctime</b>, and <b>mtime</b>). When a file
+is accessed or updated on an NFS server, the file&rsquo;s
+timestamps are updated just like they would be on a
+filesystem local to an application.</p>
+
+<p style="margin-left:9%; margin-top: 1em">NFS clients
+cache file attributes, including timestamps. A file&rsquo;s
+timestamps are updated on NFS clients when its attributes
+are retrieved from the NFS server. Thus there may be some
+delay before timestamp updates on an NFS server appear to
+applications on NFS clients.</p>
+
+<p style="margin-left:9%; margin-top: 1em">To comply with
+the POSIX filesystem standard, the Linux NFS client relies
+on NFS servers to keep a file&rsquo;s <b>mtime</b> and
+<b>ctime</b> timestamps properly up to date. It does this by
+flushing local data changes to the server before reporting
+<b>mtime</b> to applications via system calls such as
+<b>stat</b>(2).</p>
+
+<p style="margin-left:9%; margin-top: 1em">The Linux client
+handles <b>atime</b> updates more loosely, however. NFS
+clients maintain good performance by caching data, but that
+means that application reads, which normally update
+<b>atime</b>, are not reflected to the server where a
+file&rsquo;s <b>atime</b> is actually maintained.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Because of this
+caching behavior, the Linux NFS client does not support
+generic atime-related mount options. See <b>mount</b>(8) for
+details on these options.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In particular,
+the <b>atime</b>/<b>noatime</b>,
+<b>diratime</b>/<b>nodiratime</b>,
+<b>relatime</b>/<b>norelatime</b>, and
+<b>strictatime</b>/<b>nostrictatime</b> mount options have
+no effect on NFS mounts.</p>
+
+
+<p style="margin-left:9%; margin-top: 1em"><i>/proc/mounts</i>
+may report that the <b>relatime</b> mount option is set on
+NFS mounts, but in fact the <b>atime</b> semantics are
+always as described here, and are not like <b>relatime</b>
+semantics.</p>
+
+<h3>Directory entry caching
+<a name="Directory entry caching"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">The Linux NFS
+client caches the result of all NFS LOOKUP requests. If the
+requested directory entry exists on the server, the result
+is referred to as a <i>positive</i> lookup result. If the
+requested directory entry does not exist on the server (that
+is, the server returned ENOENT), the result is referred to
+as <i>negative</i> lookup result.</p>
+
+<p style="margin-left:9%; margin-top: 1em">To detect when
+directory entries have been added or removed on the server,
+the Linux NFS client watches a directory&rsquo;s mtime. If
+the client detects a change in a directory&rsquo;s mtime,
+the client drops all cached LOOKUP results for that
+directory. Since the directory&rsquo;s mtime is a cached
+attribute, it may take some time before a client notices it
+has changed. See the descriptions of the <b>acdirmin</b>,
+<b>acdirmax</b>, and <b>noac</b> mount options for more
+information about how long a directory&rsquo;s mtime is
+cached.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Caching
+directory entries improves the performance of applications
+that do not share files with applications on other clients.
+Using cached information about directories can interfere
+with applications that run concurrently on multiple clients
+and need to detect the creation or removal of files quickly,
+however. The <b>lookupcache</b> mount option allows some
+tuning of directory entry caching behavior.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Before kernel
+release 2.6.28, the Linux NFS client tracked only positive
+lookup results. This permitted applications to detect new
+directory entries created by other clients quickly while
+still providing some of the performance benefits of caching.
+If an application depends on the previous lookup caching
+behavior of the Linux NFS client, you can use
+<b>lookupcache=positive</b>.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If the client
+ignores its cache and validates every application lookup
+request with the server, that client can immediately detect
+when a new directory entry has been either created or
+removed by another client. You can specify this behavior
+using <b>lookupcache=none</b>. The extra NFS requests needed
+if the client does not cache directory entries can exact a
+performance penalty. Disabling lookup caching should result
+in less of a performance penalty than using <b>noac</b>, and
+has no effect on how the NFS client caches the attributes of
+files.</p>
+
+<h3>The sync mount option
+<a name="The sync mount option"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">The NFS client
+treats the <b>sync</b> mount option differently than some
+other file systems (refer to <b>mount</b>(8) for a
+description of the generic <b>sync</b> and <b>async</b>
+mount options). If neither <b>sync</b> nor <b>async</b> is
+specified (or if the <b>async</b> option is specified), the
+NFS client delays sending application writes to the server
+until any of these events occur:</p>
+
+<p style="margin-left:18%; margin-top: 1em">Memory pressure
+forces reclamation of system memory resources.</p>
+
+<p style="margin-left:18%; margin-top: 1em">An application
+flushes file data explicitly with <b>sync</b>(2),
+<b>msync</b>(2), or <b>fsync</b>(3).</p>
+
+<p style="margin-left:18%; margin-top: 1em">An application
+closes a file with <b>close</b>(2).</p>
+
+<p style="margin-left:18%; margin-top: 1em">The file is
+locked/unlocked via <b>fcntl</b>(2).</p>
+
+<p style="margin-left:9%; margin-top: 1em">In other words,
+under normal circumstances, data written by an application
+may not immediately appear on the server that hosts the
+file.</p>
+
+<p style="margin-left:9%; margin-top: 1em">If the
+<b>sync</b> option is specified on a mount point, any system
+call that writes data to files on that mount point causes
+that data to be flushed to the server before the system call
+returns control to user space. This provides greater data
+cache coherence among clients, but at a significant
+performance cost.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Applications can
+use the O_SYNC open flag to force application writes to
+individual files to go to the server immediately without the
+use of the <b>sync</b> mount option.</p>
+
+<h3>Using file locks with NFS
+<a name="Using file locks with NFS"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">The Network Lock
+Manager protocol is a separate sideband protocol used to
+manage file locks in NFS version 3. To support lock recovery
+after a client or server reboot, a second sideband protocol
+-- known as the Network Status Manager protocol -- is also
+required. In NFS version 4, file locking is supported
+directly in the main NFS protocol, and the NLM and NSM
+sideband protocols are not used.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In most cases,
+NLM and NSM services are started automatically, and no extra
+configuration is required. Configure all NFS clients with
+fully-qualified domain names to ensure that NFS servers can
+find clients to notify them of server reboots.</p>
+
+<p style="margin-left:9%; margin-top: 1em">NLM supports
+advisory file locks only. To lock NFS files, use
+<b>fcntl</b>(2) with the F_GETLK and F_SETLK commands. The
+NFS client converts file locks obtained via <b>flock</b>(2)
+to advisory locks.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When mounting
+servers that do not support the NLM protocol, or when
+mounting an NFS server through a firewall that blocks the
+NLM service port, specify the <b>nolock</b> mount option.
+NLM locking must be disabled with the <b>nolock</b> option
+when using NFS to mount <i>/var</i> because <i>/var</i>
+contains files used by the NLM implementation on Linux.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Specifying the
+<b>nolock</b> option may also be advised to improve the
+performance of a proprietary application which runs on a
+single client and uses file locks extensively.</p>
+
+<h3>NFS version 4 caching features
+<a name="NFS version 4 caching features"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">The data and
+metadata caching behavior of NFS version 4 clients is
+similar to that of earlier versions. However, NFS version 4
+adds two features that improve cache behavior: <i>change
+attributes</i> and <i>file delegation</i>.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The <i>change
+attribute</i> is a new part of NFS file and directory
+metadata which tracks data changes. It replaces the use of a
+file&rsquo;s modification and change time stamps as a way
+for clients to validate the content of their caches. Change
+attributes are independent of the time stamp resolution on
+either the server or client, however.</p>
+
+<p style="margin-left:9%; margin-top: 1em">A <i>file
+delegation</i> is a contract between an NFS version 4 client
+and server that allows the client to treat a file
+temporarily as if no other client is accessing it. The
+server promises to notify the client (via a callback
+request) if another client attempts to access that file.
+Once a file has been delegated to a client, the client can
+cache that file&rsquo;s data and metadata aggressively
+without contacting the server.</p>
+
+<p style="margin-left:9%; margin-top: 1em">File delegations
+come in two flavors: <i>read</i> and <i>write</i>. A
+<i>read</i> delegation means that the server notifies the
+client about any other clients that want to write to the
+file. A <i>write</i> delegation means that the client gets
+notified about either read or write accessors.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Servers grant
+file delegations when a file is opened, and can recall
+delegations at any time when another client wants access to
+the file that conflicts with any delegations already
+granted. Delegations on directories are not supported.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In order to
+support delegation callback, the server checks the network
+return path to the client during the client&rsquo;s initial
+contact with the server. If contact with the client cannot
+be established, the server simply does not grant any
+delegations to that client.</p>
+
+<h2>SECURITY CONSIDERATIONS
+<a name="SECURITY CONSIDERATIONS"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">NFS servers
+control access to file data, but they depend on their RPC
+implementation to provide authentication of NFS requests.
+Traditional NFS access control mimics the standard mode bit
+access control provided in local file systems. Traditional
+RPC authentication uses a number to represent each user
+(usually the user&rsquo;s own uid), a number to represent
+the user&rsquo;s group (the user&rsquo;s gid), and a set of
+up to 16 auxiliary group numbers to represent other groups
+of which the user may be a member.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Typically, file
+data and user ID values appear unencrypted (i.e. &quot;in
+the clear&quot;) on the network. Moreover, NFS versions 2
+and 3 use separate sideband protocols for mounting, locking
+and unlocking files, and reporting system status of clients
+and servers. These auxiliary protocols use no
+authentication.</p>
+
+<p style="margin-left:9%; margin-top: 1em">In addition to
+combining these sideband protocols with the main NFS
+protocol, NFS version 4 introduces more advanced forms of
+access control, authentication, and in-transit data
+protection. The NFS version 4 specification mandates support
+for strong authentication and security flavors that provide
+per-RPC integrity checking and encryption. Because NFS
+version 4 combines the function of the sideband protocols
+into the main NFS protocol, the new security features apply
+to all NFS version 4 operations including mounting, file
+locking, and so on. RPCGSS authentication can also be used
+with NFS versions 2 and 3, but it does not protect their
+sideband protocols.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The <b>sec</b>
+mount option specifies the security flavor used for
+operations on behalf of users on that NFS mount point.
+Specifying <b>sec=krb5</b> provides cryptographic proof of a
+user&rsquo;s identity in each RPC request. This provides
+strong verification of the identity of users accessing data
+on the server. Note that additional configuration besides
+adding this mount option is required in order to enable
+Kerberos security. Refer to the <b>rpc.gssd</b>(8) man page
+for details.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Two additional
+flavors of Kerberos security are supported: <b>krb5i</b> and
+<b>krb5p</b>. The <b>krb5i</b> security flavor provides a
+cryptographically strong guarantee that the data in each RPC
+request has not been tampered with. The <b>krb5p</b>
+security flavor encrypts every RPC request to prevent data
+exposure during network transit; however, expect some
+performance impact when using integrity checking or
+encryption. Similar support for other forms of cryptographic
+security is also available.</p>
+
+<h3>NFS version 4 filesystem crossing
+<a name="NFS version 4 filesystem crossing"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">The NFS version
+4 protocol allows a client to renegotiate the security
+flavor when the client crosses into a new filesystem on the
+server. The newly negotiated flavor effects only accesses of
+the new filesystem.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Such negotiation
+typically occurs when a client crosses from a server&rsquo;s
+pseudo-fs into one of the server&rsquo;s exported physical
+filesystems, which often have more restrictive security
+settings than the pseudo-fs.</p>
+
+<h3>NFS version 4 Leases
+<a name="NFS version 4 Leases"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">In NFS version
+4, a lease is a period during which a server irrevocably
+grants a client file locks. Once the lease expires, the
+server may revoke those locks. Clients periodically renew
+their leases to prevent lock revocation.</p>
+
+<p style="margin-left:9%; margin-top: 1em">After an NFS
+version 4 server reboots, each client tells the server about
+existing file open and lock state under its lease before
+operation can continue. If a client reboots, the server
+frees all open and lock state associated with that
+client&rsquo;s lease.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When
+establishing a lease, therefore, a client must identify
+itself to a server. Each client presents an arbitrary string
+to distinguish itself from other clients. The client
+administrator can supplement the default identity string
+using the <i>nfs4.nfs4_unique_id</i> module parameter to
+avoid collisions with other client identity strings.</p>
+
+<p style="margin-left:9%; margin-top: 1em">A client also
+uses a unique security flavor and principal when it
+establishes its lease. If two clients present the same
+identity string, a server can use client principals to
+distinguish between them, thus securely preventing one
+client from interfering with the other&rsquo;s lease.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The Linux NFS
+client establishes one lease on each NFS version 4 server.
+Lease management operations, such as lease renewal, are not
+done on behalf of a particular file, lock, user, or mount
+point, but on behalf of the client that owns that lease. A
+client uses a consistent identity string, security flavor,
+and principal across client reboots to ensure that the
+server can promptly reap expired lease state.</p>
+
+<p style="margin-left:9%; margin-top: 1em">When Kerberos is
+configured on a Linux NFS client (i.e., there is a
+<i>/etc/krb5.keytab</i> on that client), the client attempts
+to use a Kerberos security flavor for its lease management
+operations. Kerberos provides secure authentication of each
+client. By default, the client uses the <i>host/</i> or
+<i>nfs/</i> service principal in its <i>/etc/krb5.keytab</i>
+for this purpose, as described in <b>rpc.gssd</b>(8).</p>
+
+<p style="margin-left:9%; margin-top: 1em">If the client
+has Kerberos configured, but the server does not, or if the
+client does not have a keytab or the requisite service
+principals, the client uses <i>AUTH_SYS</i> and UID 0 for
+lease management.</p>
+
+<h3>Using non-privileged source ports
+<a name="Using non-privileged source ports"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">NFS clients
+usually communicate with NFS servers via network sockets.
+Each end of a socket is assigned a port value, which is
+simply a number between 1 and 65535 that distinguishes
+socket endpoints at the same IP address. A socket is
+uniquely defined by a tuple that includes the transport
+protocol (TCP or UDP) and the port values and IP addresses
+of both endpoints.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The NFS client
+can choose any source port value for its sockets, but
+usually chooses a <i>privileged</i> port. A privileged port
+is a port value less than 1024. Only a process with root
+privileges may create a socket with a privileged source
+port.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The exact range
+of privileged source ports that can be chosen is set by a
+pair of sysctls to avoid choosing a well-known port, such as
+the port used by ssh. This means the number of source ports
+available for the NFS client, and therefore the number of
+socket connections that can be used at the same time, is
+practically limited to only a few hundred.</p>
+
+<p style="margin-left:9%; margin-top: 1em">As described
+above, the traditional default NFS authentication scheme,
+known as AUTH_SYS, relies on sending local UID and GID
+numbers to identify users making NFS requests. An NFS server
+assumes that if a connection comes from a privileged port,
+the UID and GID numbers in the NFS requests on this
+connection have been verified by the client&rsquo;s kernel
+or some other local authority. This is an easy system to
+spoof, but on a trusted physical network between trusted
+hosts, it is entirely adequate.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Roughly
+speaking, one socket is used for each NFS mount point. If a
+client could use non-privileged source ports as well, the
+number of sockets allowed, and thus the maximum number of
+concurrent mount points, would be much larger.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Using
+non-privileged source ports may compromise server security
+somewhat, since any user on AUTH_SYS mount points can now
+pretend to be any other when making NFS requests. Thus NFS
+servers do not support this by default. They explicitly
+allow it usually via an export option.</p>
+
+<p style="margin-left:9%; margin-top: 1em">To retain good
+security while allowing as many mount points as possible, it
+is best to allow non-privileged client connections only if
+the server and client both require strong authentication,
+such as Kerberos.</p>
+
+<h3>Mounting through a firewall
+<a name="Mounting through a firewall"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">A firewall may
+reside between an NFS client and server, or the client or
+server may block some of its own ports via IP filter rules.
+It is still possible to mount an NFS server through a
+firewall, though some of the <b>mount</b>(8) command&rsquo;s
+automatic service endpoint discovery mechanisms may not
+work; this requires you to provide specific endpoint details
+via NFS mount options.</p>
+
+<p style="margin-left:9%; margin-top: 1em">NFS servers
+normally run a portmapper or rpcbind daemon to advertise
+their service endpoints to clients. Clients use the rpcbind
+daemon to determine:</p>
+
+<p style="margin-left:18%; margin-top: 1em">What network
+port each RPC-based service is using</p>
+
+<p style="margin-left:18%; margin-top: 1em">What transport
+protocols each RPC-based service supports</p>
+
+<p style="margin-left:9%; margin-top: 1em">The rpcbind
+daemon uses a well-known port number (111) to help clients
+find a service endpoint. Although NFS often uses a standard
+port number (2049), auxiliary services such as the NLM
+service can choose any unused port number at random.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Common firewall
+configurations block the well-known rpcbind port. In the
+absense of an rpcbind service, the server administrator
+fixes the port number of NFS-related services so that the
+firewall can allow access to specific NFS service ports.
+Client administrators then specify the port number for the
+mountd service via the <b>mount</b>(8) command&rsquo;s
+<b>mountport</b> option. It may also be necessary to enforce
+the use of TCP or UDP if the firewall blocks one of those
+transports.</p>
+
+<h3>NFS Access Control Lists
+<a name="NFS Access Control Lists"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">Solaris allows
+NFS version 3 clients direct access to POSIX Access Control
+Lists stored in its local file systems. This proprietary
+sideband protocol, known as NFSACL, provides richer access
+control than mode bits. Linux implements this protocol for
+compatibility with the Solaris NFS implementation. The
+NFSACL protocol never became a standard part of the NFS
+version 3 specification, however.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The NFS version
+4 specification mandates a new version of Access Control
+Lists that are semantically richer than POSIX ACLs. NFS
+version 4 ACLs are not fully compatible with POSIX ACLs; as
+such, some translation between the two is required in an
+environment that mixes POSIX ACLs and NFS version 4.</p>
+
+<h2>THE REMOUNT OPTION
+<a name="THE REMOUNT OPTION"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Generic mount
+options such as <b>rw</b> and <b>sync</b> can be modified on
+NFS mount points using the <b>remount</b> option. See
+<b>mount</b>(8) for more information on generic mount
+options.</p>
+
+<p style="margin-left:9%; margin-top: 1em">With few
+exceptions, NFS-specific options are not able to be modified
+during a remount. The underlying transport or NFS version
+cannot be changed by a remount, for example.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Performing a
+remount on an NFS file system mounted with the <b>noac</b>
+option may have unintended consequences. The <b>noac</b>
+option is a combination of the generic option <b>sync</b>,
+and the NFS-specific option <b>actimeo=0</b>.</p>
+
+<h3>Unmounting after a remount
+<a name="Unmounting after a remount"></a>
+</h3>
+
+
+<p style="margin-left:9%; margin-top: 1em">For mount points
+that use NFS versions 2 or 3, the NFS umount subcommand
+depends on knowing the original set of mount options used to
+perform the MNT operation. These options are stored on disk
+by the NFS mount subcommand, and can be erased by a
+remount.</p>
+
+<p style="margin-left:9%; margin-top: 1em">To ensure that
+the saved mount options are not erased during a remount,
+specify either the local mount directory, or the server
+hostname and export pathname, but not both, during a
+remount. For example,</p>
+
+<p style="margin-left:9%; margin-top: 1em">mount -o
+remount,ro /mnt</p>
+
+<p style="margin-left:9%; margin-top: 1em">merges the mount
+option <b>ro</b> with the mount options already saved on
+disk for the NFS server mounted at /mnt.</p>
+
+<h2>FILES
+<a name="FILES"></a>
+</h2>
+
+
+<table width="100%" border="0" rules="none" frame="void"
+       cellspacing="0" cellpadding="0">
+<tr valign="top" align="left">
+<td width="9%"></td>
+<td width="13%">
+
+
+<p style="margin-top: 1em"><i>/etc/fstab</i></p></td>
+<td width="6%"></td>
+<td width="22%">
+
+
+<p style="margin-top: 1em">file system table</p></td>
+<td width="50%">
+</td></tr>
+</table>
+
+<p style="margin-left:9%;"><i>/etc/nfsmount.conf</i></p>
+
+<p style="margin-left:28%;">Configuration file for NFS
+mounts</p>
+
+<h2>NOTES
+<a name="NOTES"></a>
+</h2>
+
+
+<p style="margin-left:9%; margin-top: 1em">Before 2.4.7,
+the Linux NFS client did not support NFS over TCP.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Before 2.4.20,
+the Linux NFS client used a heuristic to determine whether
+cached file data was still valid rather than using the
+standard close-to-open cache coherency method described
+above.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Starting with
+2.4.22, the Linux NFS client employs a Van Jacobsen-based
+RTT estimator to determine retransmit timeout values when
+using NFS over UDP.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Before 2.6.0,
+the Linux NFS client did not support NFS version 4.</p>
+
+<p style="margin-left:9%; margin-top: 1em">Before 2.6.8,
+the Linux NFS client used only synchronous reads and writes
+when the <b>rsize</b> and <b>wsize</b> settings were smaller
+than the system&rsquo;s page size.</p>
+
+<p style="margin-left:9%; margin-top: 1em">The Linux
+client&rsquo;s support for protocol versions depend on
+whether the kernel was built with options CONFIG_NFS_V2,
+CONFIG_NFS_V3, CONFIG_NFS_V4, CONFIG_NFS_V4_1, and
+CONFIG_NFS_V4_2.</p>
+
+<h2>SEE ALSO
+<a name="SEE ALSO"></a>
+</h2>
+
+
+
+<p style="margin-left:9%; margin-top: 1em"><b>fstab</b>(5),
+<b>mount</b>(8), <b>umount</b>(8), <b>mount.nfs</b>(5),
+<b>umount.nfs</b>(5), <b>exports</b>(5),
+<b>nfsmount.conf</b>(5), <b>netconfig</b>(5),
+<b>ipv6</b>(7), <b>nfsd</b>(8), <b>sm-notify</b>(8),
+<b>rpc.statd</b>(8), <b>rpc.idmapd</b>(8),
+<b>rpc.gssd</b>(8), <b>rpc.svcgssd</b>(8),
+<b>kerberos</b>(1)</p>
+
+<p style="margin-left:9%; margin-top: 1em">RFC 768 for the
+UDP specification. <br>
+RFC 793 for the TCP specification. <br>
+RFC 1813 for the NFS version 3 specification. <br>
+RFC 1832 for the XDR specification. <br>
+RFC 1833 for the RPC bind specification. <br>
+RFC 2203 for the RPCSEC GSS API protocol specification. <br>
+RFC 7530 for the NFS version 4.0 specification. <br>
+RFC 5661 for the NFS version 4.1 specification. <br>
+RFC 7862 for the NFS version 4.2 specification.</p>
+<hr>
+</body>
+</html>
