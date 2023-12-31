@@ -20,5 +20,7 @@ If you are concerned about potential security holes, edit /etc/polkit-1/rules.d/
 ### Network Shares
 
 Mount-gui uses an integrated implementation of the WSD protocol, *avahi-browse* for the Avahi discovery, and *nmap* for manual scanning.
+
 For detecting SMB/Samba shares, *smbclient* is required.
+
 For detecting NFSv3 shares, *showmount* (nfs-utils) is required.
